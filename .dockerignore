@@ -1,0 +1,26 @@
+# Ignore Python cache and bytecode files
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+# Ignore virtual environments
+venv/
+env/
+.virtualenv/
+# Ignore temporary files and directories
+*.log
+*.tmp
+*.bak
+*.swp
+# Ignore git metadata and version control files
+.git/
+.gitignore
+# Ignore Docker-related files
+Dockerfile
+docker-compose.yml
+# Ignore Poetry lock and cache
+poetry.lock
+.poetry/
+# Ignore editor/IDE specific files
+.idea/
+.vscode/
