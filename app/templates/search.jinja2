@@ -1,0 +1,18 @@
+<div class="uk-section">
+    <div class="uk-container">
+        <form class="uk-search uk-search-default" aria-label="Search" hx-get="/search" hx-target="#search-items" onsubmit="appendSpinner()">
+            <span uk-search-icon></span>
+            <input class="uk-search-input" type="search" name="term" placeholder="Search" aria-label=""/>
+        </form>
+    </div>
+    <br>
+    <div class="uk-container" id="search-items"></div>
+</div>
+
+
+<script>
+    function appendSpinner() {
+        const searchItemsDiv = document.getElementById('search-items');
+        searchItemsDiv.innerHTML = '<div uk-spinner></div>';
+    }
+</script>

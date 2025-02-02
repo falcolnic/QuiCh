@@ -31,6 +31,7 @@ async def store_video(request: Request, video_id: str):
         if video is None:
             transcript = YouTubeTranscriptApi.get_transcript(video_id)
             transcript = "\n".join([t["text"] for t in transcript])
+
             video = YoutubeModel(
                 id=uuid.uuid4(),
                 video_id=video_id,
@@ -38,5 +39,6 @@ async def store_video(request: Request, video_id: str):
             )
             db.add(video)
             db.commit()
+            db.flush()
 
-        return home_template(request), video.transcript
+        return home_template(request), video.knowledge

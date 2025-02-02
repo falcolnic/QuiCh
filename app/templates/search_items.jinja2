@@ -1,0 +1,33 @@
+{% for document in items %}
+    <div class="uk-child-width-expand@s" uk-grid>
+        <div>
+            <div class="uk-card">
+                <div class="uk-card-header">
+                    <h3 class="uk-card-title">{{ document.chunk.title }}</h3>
+                    <p class="uk-margin-xsmall-top uk-text-small text-muted-foreground">
+                        {{ document.similarity }}
+                    </p>
+                </div>
+                <div class="uk-card-body">
+                    <p class="uk-margin">
+                        {{ document.chunk.context }}
+                    </p>
+                    <p>
+                        [{{document.chunk.start}}s] {{ document.chunk.source }}
+
+                    </p>
+                </div>
+            </div>
+
+        </div>
+        <div>
+            <div>
+                <iframe width="560" height="315" src="https://www.youtube.com/embed/{{ document.chunk.document.video_id }}?start={{ document.chunk.start }}" title="YouTube video player"
+                        frameborder="0"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin"
+                        allowfullscreen></iframe>
+            </div>
+        </div>
+    </div>
+    </br>
+{% endfor %}

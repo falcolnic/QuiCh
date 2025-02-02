@@ -19,7 +19,7 @@ env/
 Dockerfile
 docker-compose.yml
 # Ignore Poetry lock and cache
-poetry.lock
+
 .poetry/
 # Ignore editor/IDE specific files
 .idea/
