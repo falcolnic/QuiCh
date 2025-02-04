@@ -16,7 +16,7 @@ log = logging.getLogger(__name__)
 
 
 anthropic_api_key = os.getenv("ANTHROPIC_API_KEY")
-anthropic_client = anthropic.Anthropic(api_key="zfrIQ3uANAw_S8lA31dH2UE1yyKdnNlTlwYg2ceQtG3")
+anthropic_client = anthropic.Anthropic(api_key=anthropic_api_key)
 anthropic_client = instructor.from_anthropic(anthropic_client)
 
 def is_json(docs):
