@@ -46,7 +46,7 @@ def index() -> None:
 
 
 @app.get("/search")
-@jinja.hx("search_items.jinja2", no_data=True)
+@jinja.page("search_items.jinja2")
 def search(term: str, db=Depends(get_db), client=Depends(voyageai_client)) -> List:
     question_embedding = embed(client, term)
 
@@ -57,7 +57,7 @@ def search(term: str, db=Depends(get_db), client=Depends(voyageai_client)) -> Li
         )
         rank.append(
             {
-                "similarity": similarity,
+                "similarity": round(similarity, 4),
                 "chunk": chunk,
             }
         )

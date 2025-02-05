@@ -104,3 +104,7 @@ dmypy.json
 cython_debug/
 # PyCharm
 .idea/
+
+.sesskey
+.data/
+.docs/

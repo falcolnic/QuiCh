@@ -1,33 +1,78 @@
-{% for document in items %}
-    <div class="uk-child-width-expand@s" uk-grid>
-        <div>
-            <div class="uk-card">
-                <div class="uk-card-header">
-                    <h3 class="uk-card-title">{{ document.chunk.title }}</h3>
-                    <p class="uk-margin-xsmall-top uk-text-small text-muted-foreground">
-                        {{ document.similarity }}
-                    </p>
-                </div>
-                <div class="uk-card-body">
-                    <p class="uk-margin">
-                        {{ document.chunk.context }}
-                    </p>
-                    <p>
-                        [{{document.chunk.start}}s] {{ document.chunk.source }}
+{% extends 'base.jinja' %}
+{% block header %}
+    <title>Home</title>
+    <style>
+        .result-card {
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            margin-bottom: 1.5rem;
+            transition: transform 0.2s;
+        }
 
-                    </p>
-                </div>
-            </div>
+        .result-card:hover {
+            transform: translateY(-2px);
+        }
 
-        </div>
-        <div>
-            <div>
-                <iframe width="560" height="315" src="https://www.youtube.com/embed/{{ document.chunk.document.video_id }}?start={{ document.chunk.start }}" title="YouTube video player"
-                        frameborder="0"
-                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin"
-                        allowfullscreen></iframe>
-            </div>
+        .card-content {
+            display: flex;
+            padding: 1.5rem;
+            gap: 1.5rem;
+        }
+
+        .card-text {
+            flex: 1;
+        }
+
+        .card-title {
+            color: #000;
+            font-size: 1.25rem;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+        }
+
+        .card-description {
+            color: #6c757d;
+            margin-bottom: 0;
+        }
+    </style>
+{% endblock header %}
+
+{% block content %}
+
+
+    {% include 'navbar.jinja' %}
+    <div class="container my-4">
+        <div class="search-box">
+
+            <i class="fas fa-search search-icon"></i>
+            <form class="w-100" aria-label="Search" hx-boost="true" method="GET" action="/search">
+                <input type="search" name="term" class="search-input" placeholder="Search for wisdom" aria-label="">
+            </form>
         </div>
     </div>
-    </br>
-{% endfor %}
+    <!-- Search Container -->
+    <div class="container-sm" style="max-width: 1000px;">
+        {% for document in items %}
+            <div class="card mb-6 shadow-sm result-card">
+                <div class="card-body d-flex card-content d-flex flex-column flex-md-row">
+                    <div class="flex-grow-1">
+                        <h5 class="card-title">{{ document.chunk.title }}</h5>
+                        <h6 class="card-subtitle mb-2 text-body-secondary">Similarity: {{ document["similarity"] }}</h6>
+                        <p class="card-text text-secondary card-description">
+                            {{ document.chunk.context }}
+                        </p>
+                    </div>
+                    <div class="ms-0 ms-md-3 mt-3 mt-md-0 text-center">
+                        <iframe width="460" height="215" src="https://www.youtube.com/embed/{{ document.chunk.document.video_id }}?start={{ document.chunk.start }}" title="YouTube video player"
+                                frameborder="0"
+                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin"
+                                allowfullscreen></iframe>
+                    </div>
+                </div>
+            </div>
+
+
+        {% endfor %}
+    </div>
+{% endblock content %}

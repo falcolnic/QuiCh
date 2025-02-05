@@ -1,4 +1,5 @@
 import os
+
 import voyageai
 
 from app.database import db_session

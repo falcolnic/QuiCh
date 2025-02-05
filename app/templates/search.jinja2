@@ -1,18 +1,13 @@
-<div class="uk-section">
-    <div class="uk-container">
-        <form class="uk-search uk-search-default" aria-label="Search" hx-get="/search" hx-target="#search-items" onsubmit="appendSpinner()">
-            <span uk-search-icon></span>
-            <input class="uk-search-input" type="search" name="term" placeholder="Search" aria-label=""/>
+<!-- Search Container -->
+<div class="search-container">
+    <div class="logo">
+        <h1>Wisdom of Bytes</h1>
+    </div>
+    <div class="search-box">
+        <i class="fas fa-search search-icon"></i>
+        <form class="w-100" aria-label="Search" hx-boost="true" method="GET" action="/search">
+            <input type="search" name="term" class="search-input" placeholder="Search for wisdom" aria-label="">
         </form>
     </div>
-    <br>
-    <div class="uk-container" id="search-items"></div>
+    {#    <div class="uk-container" id="search-items"></div>#}
 </div>
-
-
-<script>
-    function appendSpinner() {
-        const searchItemsDiv = document.getElementById('search-items');
-        searchItemsDiv.innerHTML = '<div uk-spinner></div>';
-    }
-</script>
