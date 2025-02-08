@@ -21,9 +21,9 @@ black = "24.4.2"
 pre-commit = "3.8.0"
 isort = "5.13.2"
 ruff = "0.5.5"
-psycopg2 = "2.9.9"
+psycopg2-binary = "2.9.9"
 pytest = "8.3.3"
-
+alembic = "1.13.3"
 
 [build-system]
 requires = ["poetry-core"]

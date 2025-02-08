@@ -4,8 +4,6 @@
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 
-import app.models.base  # noqa
-
 
 def setup_database():
     """
