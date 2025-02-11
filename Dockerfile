@@ -23,6 +23,5 @@ COPY --from=builder ${VIRTUAL_ENV} ${VIRTUAL_ENV}
 WORKDIR /
 COPY ./app /app
 COPY ./app/franken.db /franken.db
-COPY .env /app/.env
 
 CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8888"]
