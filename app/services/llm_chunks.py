@@ -18,6 +18,7 @@ log = logging.getLogger(__name__)
 
 
 anthropic_api_key = os.getenv("ANTHROPIC_API_KEY")
+fly_api_token = os.getenv("FLY_API_TOKEN")
 anthropic_client = anthropic.Anthropic(api_key=anthropic_api_key)
 anthropic_client = instructor.from_anthropic(anthropic_client)
 
