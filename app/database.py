@@ -1,8 +1,11 @@
 # models.py
+import logging
 
 # Base class for our models
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
+
+log = logging.getLogger(__name__)
 
 
 def setup_database():
