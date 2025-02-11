@@ -20,7 +20,7 @@ ENV VIRTUAL_ENV=/app/.venv \
 
 COPY --from=builder ${VIRTUAL_ENV} ${VIRTUAL_ENV}
 
-WORKDIR /app
+WORKDIR /
 COPY ./app /app
 COPY ./app/franken.db /franken.db
 
