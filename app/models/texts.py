@@ -4,7 +4,7 @@ import uuid
 from sqlalchemy import BLOB, JSON, UUID, Column, ForeignKey, Integer, String
 from sqlalchemy.orm import relationship
 
-from models.base_class import Base
+from app.models.base_class import Base
 
 
 class TranscriptionModel(Base):

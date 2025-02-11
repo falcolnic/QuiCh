@@ -1,8 +1,14 @@
-import os
-
+import jwt
 import voyageai
+from fastapi import Depends
+from fastapi.security import OAuth2PasswordBearer
 
+from app.api.exceptions import credential_exception
+from app.config import app_config
 from app.database import db_session
+from app.schemas.token import TokenPayloadSchema
+
+oauth2_scheme = OAuth2PasswordBearer(tokenUrl=f"{app_config.API_PREFIX}/token")
 
 
 def get_db():
@@ -11,7 +17,14 @@ def get_db():
 
 
 def voyageai_client():
-    voyage_api_key = os.getenv("VOYAGE_API_KEY")
-    if not voyage_api_key:
-        raise ValueError("VOYAGE_API_KEY environment variable is not set")
-    return voyageai.Client(api_key=voyage_api_key)
+    return voyageai.Client()
+
+
+def get_current_user(token: str = Depends(oauth2_scheme)):
+    try:
+        payload = jwt.decode(token, app_config.SECRET_KEY, algorithms=[app_config.ALGORITHM])
+        token_data = TokenPayloadSchema(**payload)
+    except Exception:
+        raise credential_exception
+
+    return {"login": token_data.sub}

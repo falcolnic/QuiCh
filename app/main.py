@@ -2,14 +2,16 @@ import logging
 import os
 from typing import List
 
-from api.deps import get_db, voyageai_client
 from fastapi import Depends, FastAPI
 from fasthx import Jinja
-from models.texts import ChunkModel
 from pydantic import BaseModel
-from services.embeddings import embed
 from sqlalchemy import select
 from starlette.templating import Jinja2Templates
+
+from app.api.deps import get_db, voyageai_client
+from app.api.v1 import api_router
+from app.models.texts import ChunkModel
+from app.services.embeddings import embed
 
 logFormatter = logging.Formatter("%(asctime)s [%(levelname)s]: %(message)s")
 log = logging.getLogger()
@@ -29,6 +31,7 @@ basedir = os.path.abspath(os.path.dirname(__file__))
 
 # Create the app instance.
 app = FastAPI()
+app.include_router(api_router)
 # app.mount("/public", StaticFiles(directory="public"), name="public")
 # Create a FastAPI Jinja2Templates instance. This will be used in FastHX Jinja instance.
 templates = Jinja2Templates(directory=os.path.join(basedir, "templates"))

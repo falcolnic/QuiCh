@@ -9,6 +9,9 @@ from app.database import db_session
 from app.models.texts import ChunkModel, DocumentModel
 from app.services.llm_chunks import split_document
 
+from dotenv import load_dotenv
+load_dotenv()
+
 logFormatter = logging.Formatter("%(asctime)s [%(levelname)s]: %(message)s")
 
 log = logging.getLogger()

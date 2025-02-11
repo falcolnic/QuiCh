@@ -10,8 +10,10 @@ import instructor
 
 from app.services.document_schema import DocumentListSchema
 
-# from dotenv import load_dotenv
-# load_dotenv()
+from dotenv import load_dotenv
+load_dotenv()
+
+
 log = logging.getLogger(__name__)
 
 

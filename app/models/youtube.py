@@ -1,5 +1,6 @@
-from models.base_class import Base
 from sqlalchemy import UUID, Column, String
+
+from app.models.base_class import Base
 
 
 class YoutubeModel(Base):
