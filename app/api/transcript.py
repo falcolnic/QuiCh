@@ -1,9 +1,11 @@
 import uuid
 
-from app.api.deps import get_db, voyageai_client
 from fastapi import APIRouter, BackgroundTasks, Depends
+
+from app.api.deps import get_db, voyageai_client
 from app.schemas.transcript import TranscriptSchema, Youtube
-from app.services.transcript import calculate_embedding, load_transcript, split_transcript
+from app.services.transcript import (calculate_embedding, load_transcript,
+                                     split_transcript)
 
 router = APIRouter()
 

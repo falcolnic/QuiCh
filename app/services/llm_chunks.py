@@ -2,14 +2,13 @@ import json
 import logging
 import os
 import re
-
 from json import JSONDecodeError
+
 import anthropic
 import instructor
 from dotenv import load_dotenv
 
 from app.services.document_schema import DocumentListSchema
-
 
 load_dotenv()
 log = logging.getLogger(__name__)
