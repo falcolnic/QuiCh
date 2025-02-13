@@ -11,9 +11,17 @@ ENV POETRY_NO_INTERACTION=1 \
 
 COPY pyproject.toml poetry.lock ./
 
-RUN --mount=type=cache,target=$POETRY_CACHE_DIR poetry install --only=main --no-root
+RUN --mount=type=cache,target=$POETRY_CACHE_DIR poetry install --without dev --no-root
 
-FROM python:3.11-slim-buster as runtime
+FROM python:3.11-slim-bullseye as runtime
+
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends \
+        libgomp1 \
+        libatlas-base-dev \
+        liblapack-dev && \
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/*
 
 ENV VIRTUAL_ENV=/app/.venv \
     PATH="/app/.venv/bin:$PATH"

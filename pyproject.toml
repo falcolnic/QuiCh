@@ -18,6 +18,8 @@ fasthx = "2.0.1"
 pydantic-settings = "^2.7.1"
 pyjwt = "^2.10.1"
 python-multipart = "^0.0.20"
+sqlite-vec = "^0.1.6"
+youtube-transcript-api = "0.6.2"
 
 [tool.poetry.dev-dependencies]
 black = "24.4.2"

@@ -1,60 +1,35 @@
-import uuid
 from datetime import timedelta
 from typing import Dict, List
 
 
-def chunk_transcript(video_id, transcript: List[Dict], window_size: int = 10):
-    chunks = []
+def transcript_first_n_seconds(transcript: List[Dict], from_start: int = 0, first_seconds: int = 600):
     current_chunks = []
     chunk_duration = 0
 
     for i, entry in enumerate(transcript):
-        if chunk_duration + entry["duration"] > 600:
-            chunks.append(
-                {
-                    "start": current_chunks[0]["start"],
-                    "duration": int(chunk_duration),
-                    "text": to_text(current_chunks),
-                }
-            )
+        if entry["start"] < from_start:
+            continue
 
-            current_chunks = current_chunks[-window_size:] if window_size else []
-            chunk_duration = sum(s["duration"] for s in current_chunks)
+        if chunk_duration + entry["duration"] > first_seconds:
+            return {
+                "start": current_chunks[0]["start"],
+                "duration": int(chunk_duration),
+                "text": to_text(current_chunks),
+                "text_json": current_chunks,
+            }, False
 
         current_chunks.append(entry)
         chunk_duration += entry["duration"]
 
-    if chunk_duration > 0:
-        if chunk_duration < 300:
-            # just append to the last chunk
-            chunks[-1]["duration"] += chunk_duration
-            chunks[-1]["text"] += to_text(current_chunks)
-        else:
-            chunks.append(
-                {
-                    "start": current_chunks[0]["start"],
-                    "duration": int(chunk_duration),
-                    "text": to_text(current_chunks),
-                }
-            )
-
-    return {
-        "doc_id": video_id,
-        "original_uuid": str(uuid.uuid4()),
-        "content": " ".join([t["text"] for t in transcript]),
-        "chunks": [
-            {
-                "start": int(c["start"]),
-                "content": c["text"],
-                "duration": c["duration"],
-                "chunk_id": f"{video_id}__chunk_{idx}",
-                "original_index": idx,
-                "len": len(c["text"]),
-            }
-            for idx, c in enumerate(chunks)
-        ],
-    }
-
+    if current_chunks:
+        return {
+            "start": current_chunks[0]["start"],
+            "duration": int(chunk_duration),
+            "text": to_text(current_chunks),
+            "text_json": current_chunks,
+        }, True
+    else:
+        return None
 
 def to_text(current_chunks):
     text = ""

@@ -2037,6 +2037,20 @@ pymysql = ["pymysql"]
 sqlcipher = ["sqlcipher3_binary"]
 
 [[package]]
+name = "sqlite-vec"
+version = "0.1.6"
+description = ""
+optional = false
+python-versions = "*"
+files = [
+    {file = "sqlite_vec-0.1.6-py3-none-macosx_10_6_x86_64.whl", hash = "sha256:77491bcaa6d496f2acb5cc0d0ff0b8964434f141523c121e313f9a7d8088dee3"},
+    {file = "sqlite_vec-0.1.6-py3-none-macosx_11_0_arm64.whl", hash = "sha256:fdca35f7ee3243668a055255d4dee4dea7eed5a06da8cad409f89facf4595361"},
+    {file = "sqlite_vec-0.1.6-py3-none-manylinux_2_17_aarch64.manylinux2014_aarch64.whl", hash = "sha256:7b0519d9cd96164cd2e08e8eed225197f9cd2f0be82cb04567692a0a4be02da3"},
+    {file = "sqlite_vec-0.1.6-py3-none-manylinux_2_17_x86_64.manylinux2014_x86_64.manylinux1_x86_64.whl", hash = "sha256:823b0493add80d7fe82ab0fe25df7c0703f4752941aee1c7b2b02cec9656cb24"},
+    {file = "sqlite_vec-0.1.6-py3-none-win_amd64.whl", hash = "sha256:c65bcfd90fa2f41f9000052bcb8bb75d38240b2dae49225389eca6c3136d3f0c"},
+]
+
+[[package]]
 name = "starlette"
 version = "0.40.0"
 description = "The little ASGI library that shines."
@@ -2318,7 +2332,21 @@ idna = ">=2.0"
 multidict = ">=4.0"
 propcache = ">=0.2.0"
 
+[[package]]
+name = "youtube-transcript-api"
+version = "0.6.2"
+description = "This is an python API which allows you to get the transcripts/subtitles for a given YouTube video. It also works for automatically generated subtitles, supports translating subtitles and it does not require a headless browser, like other selenium based solutions do!"
+optional = false
+python-versions = "*"
+files = [
+    {file = "youtube_transcript_api-0.6.2-py3-none-any.whl", hash = "sha256:019dbf265c6a68a0591c513fff25ed5a116ce6525832aefdfb34d4df5567121c"},
+    {file = "youtube_transcript_api-0.6.2.tar.gz", hash = "sha256:cad223d7620633cec44f657646bffc8bbc5598bd8e70b1ad2fa8277dec305eb7"},
+]
+
+[package.dependencies]
+requests = "*"
+
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.11"
-content-hash = "ed29bc65403c0abeeb5d36b783504d7f473bb818f771bb5a2c8a980719e3f73b"
+content-hash = "bd0bfb8e58969ade2b537dbd3cfa9930c49f1acb24c5791db3cfbb1122c6f6ea"

@@ -2,23 +2,20 @@ import json
 import logging
 import os
 import re
-from json import JSONDecodeError
-from typing import Dict
 
+from json import JSONDecodeError
 import anthropic
 import instructor
+from dotenv import load_dotenv
 
 from app.services.document_schema import DocumentListSchema
 
-from dotenv import load_dotenv
+
 load_dotenv()
-
-
 log = logging.getLogger(__name__)
 
 
 anthropic_api_key = os.getenv("ANTHROPIC_API_KEY")
-fly_api_token = os.getenv("FLY_API_TOKEN")
 anthropic_client = anthropic.Anthropic(api_key=anthropic_api_key)
 anthropic_client = instructor.from_anthropic(anthropic_client)
 
@@ -76,7 +73,7 @@ def split_document(llm_chunks, document):
     return docs
 
 
-def split_transcript_document(document) -> Dict:
+def split_transcript_document(document) -> DocumentListSchema:
     response, completion = anthropic_client.messages.create_with_completion(
         model="claude-3-haiku-20240307",
         max_tokens=1024,
@@ -93,10 +90,13 @@ def split_transcript_document(document) -> Dict:
 ```json
 {{
     "title": string, // A short, clear title summarizing the chunk.
-    "start": integer, // The start time of the chunk in seconds. Make sure that timestamp exist in the document 
+    "start": integer, // The start time of the first chunk in seconds. Make sure that timestamp exist in the document 
+    "end": integer, // The end time of the last chunk in seconds. Make sure that timestamp exist in the document 
     "context": string  // A short succinct context to situate this chunk within the overall document for the purposes of improving search retrieval of the chunk.
 }}
 ```
+IMPORTANT: every time double check `start` and `end` value to make sure it presents in the given document!!!
+In case if you pick and invalid timestamp, please review your findings.
 
 Given transcript:
 <transcript>{document}\n</transcript>"
@@ -116,12 +116,9 @@ Given transcript:
     #     log.error(f"Invalid JSON: {response.content[0].text}")
     #     llm_chunks = fix_json(response.content[0].text)
 
-    return {
-        "usage": {
-            "output_tokens": completion.usage.output_tokens,
-            "input_tokens": completion.usage.input_tokens,
-        },
-        "docs": response.model_dump()["docs"],
+    return response, {
+        "output_tokens": completion.usage.output_tokens,
+        "input_tokens": completion.usage.input_tokens,
     }
 
 
