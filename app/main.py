@@ -12,7 +12,7 @@ from starlette.templating import Jinja2Templates
 from app.api.deps import get_db, voyageai_client
 from app.api.v1 import api_router
 from app.database import init_db
-from app.models.texts import ChunkModel
+from app.models.texts import DocumentModel
 from app.services.embeddings import embed
 
 logFormatter = logging.Formatter("%(asctime)s [%(levelname)s]: %(message)s")
@@ -31,7 +31,6 @@ async def lifespan(app: FastAPI) -> None: # type: ignore
 
 
 app = FastAPI(openapi_url="/api/openapi.json", docs_url="/api/docs", lifespan=lifespan)
-
 
 basedir = os.path.abspath(os.path.dirname(__file__))
 
@@ -67,19 +66,17 @@ def search(term: str, db=Depends(get_db), client=Depends(voyageai_client)) -> Li
     query = f"""
         with matches as (
             select rowid, distance
-            from vss_articles
-            where vss_search(description_embedding,
-            vss_search_params(json('{json.dumps(question_embedding)}'), 20)
-            )
+            from vector_source
+            where embedding match '{json.dumps(question_embedding)}' and k=10
         )
-        select chunks.*, matches.distance as distance
+        select docs.*, matches.distance as distance
         from matches
-        left join chunks on chunks.rowid = matches.rowid
+        left join docs on docs.rowid = matches.rowid
 """
 
 
     res = db.execute(
-        select(ChunkModel, ColumnClause("distance", Float)).from_statement(text(query))
+        select(DocumentModel, ColumnClause("distance", Float)).from_statement(text(query))
     ).all()
 
     return [

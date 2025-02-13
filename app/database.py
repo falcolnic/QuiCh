@@ -33,15 +33,18 @@ def init_db() -> None:
         (vec_version,) = connection.execute("select vec_version()").fetchone()
         log.info(f"Register extension: vec_version={vec_version}")
 
-        log.info("Create virtual vector table for embeddings")
+        log.info("Drop virtual tables for embeddings")
+        connection.execute("DROP TABLE IF EXISTS vector_source;")
+        log.info("Create virtual vector tables for embeddings")
         connection.execute(
-            """
-CREATE VIRTUAL TABLE IF NOT EXISTS vec_articles USING vec0(
-    document_id integer primary key,
-    contents_embedding float[768]
-);
-"""
+            "CREATE VIRTUAL TABLE IF NOT EXISTS vector_source USING vec0(embedding float[512]);"
         )
+
+        log.info("Load embeddings into virtual vector table")
+        connection.execute(
+            "INSERT INTO vector_source (rowid, embedding) SELECT rowid, source_embedding FROM docs;"
+        )
+
         connection.commit()
 
 

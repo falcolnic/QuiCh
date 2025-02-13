@@ -44,7 +44,6 @@
     {% include 'navbar.jinja2' %}
     <div class="container my-4">
         <div class="search-box">
-
             <i class="fas fa-search search-icon"></i>
             <form class="w-100" aria-label="Search" hx-boost="true" method="GET" action="/search">
                 <input type="search" name="term" class="search-input" placeholder="Search for wisdom" aria-label="">
@@ -60,11 +59,15 @@
                         <h5 class="card-title">{{ document.chunk.title }}</h5>
                         <h6 class="card-subtitle mb-2 text-body-secondary">Similarity: {{ document["similarity"] }}</h6>
                         <p class="card-text text-secondary card-description">
-                            {{ document.chunk.context }}
+                            {{ document.chunk.summary }}
+                        </p>
+                        <br>
+                        <p class="card-text text-secondary card-description">
+                            {{ document.chunk.source }}
                         </p>
                     </div>
                     <div class="ms-0 ms-md-3 mt-3 mt-md-0 text-center">
-                        <iframe width="460" height="215" src="https://www.youtube.com/embed/{{ document.chunk.document.video_id }}?start={{ document.chunk.start }}" title="YouTube video player"
+                        <iframe width="460" height="215" src="https://www.youtube.com/embed/{{ document.chunk.video_id }}?start={{ document.chunk.start }}" title="YouTube video player"
                                 frameborder="0"
                                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin"
                                 allowfullscreen></iframe>

@@ -32,6 +32,7 @@ async def get_db():
 
 
 def voyageai_client():
+    # Initialize the voyageai.Client without the 'proxies' argument
     return voyageai.Client()
 
 
