@@ -1,5 +1,6 @@
 # models.py
 import logging
+from pathlib import Path
 
 import sqlite_vec
 from sqlalchemy import create_engine, event
@@ -14,7 +15,8 @@ def setup_database():
     """
     Set up the SQLite database and create all tables based on models.
     """
-    return create_engine("sqlite:///franken.db", pool_size=20, max_overflow=0)
+    db_path = Path(__file__).parent / "franken.db"
+    return create_engine(f"sqlite:///{db_path}", pool_size=20, max_overflow=0)
 
 
 # Initialize the database
@@ -22,6 +24,11 @@ engine = setup_database()
 
 
 def init_db() -> None:
+    from app.models.texts import Base  # Import Base from models
+    
+    # Create all tables
+    Base.metadata.create_all(bind=engine)
+    
     @event.listens_for(engine, "connect")
     def receive_connect(connection, _) -> None:
         log.info("Load SQlite VEC extension")
@@ -42,7 +49,7 @@ def init_db() -> None:
 
         log.info("Load embeddings into virtual vector table")
         connection.execute(
-            "INSERT INTO vector_source (rowid, embedding) SELECT rowid, source_embedding FROM docs;"
+            "INSERT INTO vector_source (rowid, embedding) SELECT rowid, embedding FROM ideas where embedding is not null;"
         )
 
         connection.commit()

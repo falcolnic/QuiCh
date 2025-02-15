@@ -2,12 +2,11 @@ import asyncio
 
 import jwt
 import voyageai
-from fastapi import Depends
-from fastapi.security import OAuth2PasswordBearer
-
 from app.api.exceptions import credential_exception
 from app.config import app_config
 from app.database import SessionLocal
+from fastapi import Depends
+from fastapi.security import OAuth2PasswordBearer
 from app.schemas.token import TokenPayloadSchema
 
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl=f"{app_config.API_PREFIX}/token")

@@ -792,13 +792,13 @@ files = [
 
 [[package]]
 name = "instructor"
-version = "1.6.1"
+version = "1.6.3"
 description = "structured outputs for llm"
 optional = false
 python-versions = "<4.0,>=3.9"
 files = [
-    {file = "instructor-1.6.1-py3-none-any.whl", hash = "sha256:7207725c7161958511c828776fd1fc55b495350dd60cfc62bec914ee1eb0d842"},
-    {file = "instructor-1.6.1.tar.gz", hash = "sha256:3c5383ef748b16f70fc58169086f61ad039ca5b85593353863db1259aa9415b6"},
+    {file = "instructor-1.6.3-py3-none-any.whl", hash = "sha256:a8f973fea621c0188009b65a3429a526c24aeb249fc24100b605ea496e92d622"},
+    {file = "instructor-1.6.3.tar.gz", hash = "sha256:399cd90e30b5bc7cbd47acd7399c9c4e84926a96c20c8b5d00c5a04b41ed41ab"},
 ]
 
 [package.dependencies]
@@ -806,7 +806,7 @@ aiohttp = ">=3.9.1,<4.0.0"
 docstring-parser = ">=0.16,<0.17"
 jinja2 = ">=3.1.4,<4.0.0"
 jiter = ">=0.5.0,<0.6.0"
-openai = ">=1.45.0,<2.0.0"
+openai = ">=1.52.0,<2.0.0"
 pydantic = ">=2.8.0,<3.0.0"
 pydantic-core = ">=2.18.0,<3.0.0"
 rich = ">=13.7.0,<14.0.0"
@@ -814,7 +814,7 @@ tenacity = ">=9.0.0,<10.0.0"
 typer = ">=0.9.0,<1.0.0"
 
 [package.extras]
-anthropic = ["anthropic (>=0.34.0,<0.35.0)", "xmltodict (>=0.13.0,<0.14.0)"]
+anthropic = ["anthropic (>=0.36.2,<0.37.0)", "xmltodict (>=0.13.0,<0.14.0)"]
 cerebras-cloud-sdk = ["cerebras_cloud_sdk (>=1.5.0,<2.0.0)"]
 cohere = ["cohere (>=5.1.8,<6.0.0)"]
 fireworks-ai = ["fireworks-ai (>=0.15.4,<0.16.0)"]
@@ -822,7 +822,7 @@ google-generativeai = ["google-generativeai (>=0.8.2,<0.9.0)"]
 groq = ["groq (>=0.4.2,<0.5.0)"]
 litellm = ["litellm (>=1.35.31,<2.0.0)"]
 mistralai = ["mistralai (>=1.0.3,<2.0.0)"]
-test-docs = ["anthropic (>=0.34.0,<0.35.0)", "cohere (>=5.1.8,<6.0.0)", "diskcache (>=5.6.3,<6.0.0)", "fastapi (>=0.109.2,<0.110.0)", "groq (>=0.4.2,<0.5.0)", "litellm (>=1.35.31,<2.0.0)", "mistralai (>=1.0.3,<2.0.0)", "pandas (>=2.2.0,<3.0.0)", "pydantic_extra_types (>=2.6.0,<3.0.0)", "redis (>=5.0.1,<6.0.0)", "tabulate (>=0.9.0,<0.10.0)"]
+test-docs = ["anthropic (>=0.36.2,<0.37.0)", "cohere (>=5.1.8,<6.0.0)", "diskcache (>=5.6.3,<6.0.0)", "fastapi (>=0.109.2,<0.110.0)", "groq (>=0.4.2,<0.5.0)", "litellm (>=1.35.31,<2.0.0)", "mistralai (>=1.0.3,<2.0.0)", "pandas (>=2.2.0,<3.0.0)", "pydantic_extra_types (>=2.6.0,<3.0.0)", "redis (>=5.0.1,<6.0.0)", "tabulate (>=0.9.0,<0.10.0)"]
 vertexai = ["google-cloud-aiplatform (>=1.53.0,<2.0.0)", "jsonref (>=1.1.0,<2.0.0)"]
 
 [[package]]
@@ -1239,13 +1239,13 @@ files = [
 
 [[package]]
 name = "openai"
-version = "1.61.1"
+version = "1.63.0"
 description = "The official Python library for the openai API"
 optional = false
 python-versions = ">=3.8"
 files = [
-    {file = "openai-1.61.1-py3-none-any.whl", hash = "sha256:72b0826240ce26026ac2cd17951691f046e5be82ad122d20a8e1b30ca18bd11e"},
-    {file = "openai-1.61.1.tar.gz", hash = "sha256:ce1851507218209961f89f3520e06726c0aa7d0512386f0f977e3ac3e4f2472e"},
+    {file = "openai-1.63.0-py3-none-any.whl", hash = "sha256:a664dfc78f0a05ca46c3e21f344f840cf6bf7174f13cfa9de214ed28bfca1dda"},
+    {file = "openai-1.63.0.tar.gz", hash = "sha256:597d7a1b35b113e5a09fcb953bdb1eef44f404a39985f3d7573b3ab09221fd66"},
 ]
 
 [package.dependencies]
@@ -1723,6 +1723,17 @@ python-versions = ">=3.8"
 files = [
     {file = "python_multipart-0.0.20-py3-none-any.whl", hash = "sha256:8a62d3a8335e06589fe01f2a3e178cdcc632f3fbe0d492ad9ee0ec35aab1f104"},
     {file = "python_multipart-0.0.20.tar.gz", hash = "sha256:8dd0cab45b8e23064ae09147625994d090fa46f5b0d1e13af944c331a7fa9d13"},
+]
+
+[[package]]
+name = "pytubefix"
+version = "8.12.1"
+description = "Python3 library for downloading YouTube Videos."
+optional = false
+python-versions = ">=3.7"
+files = [
+    {file = "pytubefix-8.12.1-py3-none-any.whl", hash = "sha256:1101463302b87c9a7172632232740413366919c4456255f5a85d114d0c60e0ec"},
+    {file = "pytubefix-8.12.1.tar.gz", hash = "sha256:64af1ce25543007b1eadf1e2e01363839b0e4dd3c62ca2ae008f46c5462a2c54"},
 ]
 
 [[package]]
@@ -2243,4 +2254,4 @@ requests = "*"
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.11"
-content-hash = "37794d432042a944759db0ab3878c87cbb05e55115d19b6f6822a1c069d2ae61"
+content-hash = "de19d97a4778f5954742dee80508f234ec94eb5e2a5ee149e7524c2dd13f0687"

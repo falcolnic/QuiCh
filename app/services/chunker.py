@@ -29,13 +29,13 @@ def transcript_first_n_seconds(transcript: List[Dict], from_start: int = 0, firs
             "text_json": current_chunks,
         }, True
     else:
-        return None
+        return None, True
 
 def to_text(current_chunks):
     text = ""
     for idx, chunk in enumerate(current_chunks):
         if idx % 5 == 0:
-            text += " " + f"[{int(chunk['start'])}s]" + " " + chunk["text"]
+            text += " " + f"[{int(chunk['start'])}]" + " " + chunk["text"]
         else:
             text += " " + chunk["text"]
     return text

@@ -2,13 +2,14 @@ import json
 import logging
 import os
 import re
-from json import JSONDecodeError
 
+from json import JSONDecodeError
 import anthropic
 import instructor
 from dotenv import load_dotenv
 
 from app.services.document_schema import DocumentListSchema
+
 
 load_dotenv()
 log = logging.getLogger(__name__)
@@ -103,17 +104,7 @@ Given transcript:
             }
         ],
         response_model=DocumentListSchema,
-        # extra_headers={"anthropic-beta": "prompt-caching-2024-07-31"}
     )
-
-    # response_text = response.model_dump()['docs']
-    #
-    # try:
-    #     response_text = normalize_json(response_text)
-    #     llm_chunks = json.loads(response.content[0].text)
-    # except JSONDecodeError:
-    #     log.error(f"Invalid JSON: {response.content[0].text}")
-    #     llm_chunks = fix_json(response.content[0].text)
 
     return response, {
         "output_tokens": completion.usage.output_tokens,
@@ -125,7 +116,7 @@ def fix_json(document):
     client = anthropic.Anthropic(api_key=anthropic_api_key, max_retries=10)
     response = client.messages.create(
         model="claude-3-haiku-20240307",
-        max_tokens=1000,
+        max_tokens=1024,
         temperature=0.0,
         messages=[
             {
@@ -146,7 +137,6 @@ Before returning the result double check does JSON syntax is correct.
             },
             {"role": "assistant", "content": "Here is the JSON requested:"},
         ],
-        # extra_headers={"anthropic-beta": "prompt-caching-2024-07-31"}
     )
 
     return normalize_json(response.content[0].text)

@@ -2,18 +2,18 @@ import json
 import logging
 import os
 from contextlib import asynccontextmanager
-from typing import List
-
-from fastapi import Depends, FastAPI
-from fasthx import Jinja
-from sqlalchemy import ColumnClause, Float, select, text
-from starlette.templating import Jinja2Templates
+from typing import Dict
 
 from app.api.deps import get_db, voyageai_client
 from app.api.v1 import api_router
 from app.database import init_db
-from app.models.texts import DocumentModel
+from fastapi import Depends, FastAPI, Query
+from fasthx import Jinja
+from app.models.texts import IdeaModel, YoutubeModel
+from app.services.answer import answer_question
 from app.services.embeddings import embed
+from sqlalchemy import ColumnClause, Float, select, text
+from starlette.templating import Jinja2Templates
 
 logFormatter = logging.Formatter("%(asctime)s [%(levelname)s]: %(message)s")
 log = logging.getLogger()
@@ -21,6 +21,8 @@ log.setLevel(logging.INFO)
 consoleHandler = logging.StreamHandler()
 consoleHandler.setFormatter(logFormatter)
 log.addHandler(consoleHandler)
+
+TOP_N = 50
 
 
 @asynccontextmanager
@@ -54,35 +56,72 @@ def index() -> None:
 @app.get("/version")
 def version(db=Depends(get_db)) -> dict:
     return {
-        "vec version": db.scalars(text("select vec_version();")),
+        "vss version": db.scalars(text("select vec_version();")),
         "sqlite version": db.scalars(text("select sqlite_version();")),
     }
 
+
 @app.get("/search")
 @jinja.page("search_items.jinja2")
-def search(term: str, db=Depends(get_db), client=Depends(voyageai_client)) -> List:
+def search(
+    term: str,
+    page: int = Query(1, ge=1),
+    page_size: int = Query(20, ge=1, le=100),
+    db=Depends(get_db),
+    client=Depends(voyageai_client),
+) -> Dict:
     question_embedding = embed(client, term)
+    offset = (page - 1) * page_size
 
-    query = f"""
-        with matches as (
-            select rowid, distance
-            from vector_source
-            where embedding match '{json.dumps(question_embedding)}' and k=10
+    query = """
+        WITH matches AS (
+            SELECT rowid, vec_distance_cosine(embedding, :embedding) as distance
+            FROM vector_source
+            ORDER BY distance
         )
-        select docs.*, matches.distance as distance
-        from matches
-        left join docs on docs.rowid = matches.rowid
-"""
-
+        SELECT ideas.*, matches.distance AS distance
+        FROM matches
+        LEFT JOIN ideas ON ideas.rowid = matches.rowid
+        ORDER BY distance
+        LIMIT :page_size OFFSET :offset
+    """
 
     res = db.execute(
-        select(DocumentModel, ColumnClause("distance", Float)).from_statement(text(query))
+        select(IdeaModel, ColumnClause("distance", Float)).from_statement(text(query)),
+        {
+            "embedding": json.dumps(question_embedding),
+            "page_size": page_size,
+            "offset": offset,
+            "top_n": TOP_N,
+        },
     ).all()
 
-    return [
-        {
-            "similarity": round(similarity, 4),
-            "chunk": chunk,
-        }
-        for chunk, similarity in res
-    ]
+    videos_count = len(set(i.video_id for i, _ in res))
+
+    # TODO
+    total_results = TOP_N
+
+    total_pages = (total_results + page_size - 1) // page_size
+
+    answer = answer_question(term, res[:20])
+
+    return {
+        "search_term": term,
+        "answer": answer,
+        "search_videos_count": videos_count,
+        "current_page": page,
+        "total_pages": total_pages,
+        "docs": [
+            (
+                round(rank, 4),
+                doc,
+            )
+            for doc, rank in res
+        ],
+    }
+
+
+@app.get("/video")
+@jinja.page("search_items.jinja2")
+def video(video_id: str, db=Depends(get_db)):
+    db.sclar(select(YoutubeModel).filter_by(video_id=video_id))

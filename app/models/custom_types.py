@@ -5,6 +5,7 @@ from sqlalchemy import BLOB, TypeDecorator
 
 class UUID_as_Integer(TypeDecorator):
     impl = BLOB
+    cache_ok = True
 
     def process_bind_param(self, value, dialect):
         """Convert UUID to integer before storing in the database."""

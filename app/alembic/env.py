@@ -1,9 +1,13 @@
+
+import logging
 import os
 import sys
 from logging.config import fileConfig
 
+import sqlite_vec
 from alembic import context
 from sqlalchemy import engine_from_config, pool
+from sqlalchemy.event import listen
 
 # Add the project root directory to the Python path
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..')))
@@ -30,6 +34,8 @@ target_metadata = Base.metadata
 # my_important_option = config.get_main_option("my_important_option")
 # ... etc.
 
+log = logging.getLogger(__name__)
+
 
 def run_migrations_offline() -> None:
     """Run migrations in 'offline' mode.
@@ -55,6 +61,47 @@ def run_migrations_offline() -> None:
         context.run_migrations()
 
 
+def receive_connect(connection, _) -> None:
+    log.info("Load sqlite_vec extension")
+
+    connection.enable_load_extension(True)
+    sqlite_vec.load(connection)
+    connection.enable_load_extension(False)
+
+    connection.commit()
+
+
+def include_object(object, name, type_, reflected, compare_to):
+    """
+    Should you include this table or not?
+    """
+    IGNORE_TABLES = [
+        "vector_summary_vector_chunks00",
+        "vss_articles_chunks",
+        "vector_title",
+        "vector_title_rowids",
+        "vss_articles_rowids",
+        "vector_source_chunks",
+        "vector_source_vector_chunks00",
+        "vector_summary",
+        "vector_title_vector_chunks00",
+        "vector_source_rowids",
+        "vector_summary_rowids",
+        "vector_title_chunks",
+        "vss_articles_vector_chunks00",
+        "vector_source",
+        "vector_summary_chunks",
+        "vss_articles",
+    ]
+    if type_ == "table" and (name in IGNORE_TABLES or object.info.get("skip_autogenerate", False)):
+        return False
+
+    elif type_ == "column" and object.info.get("skip_autogenerate", False):
+        return False
+
+    return True
+
+
 def run_migrations_online() -> None:
     """Run migrations in 'online' mode.
 
@@ -67,12 +114,15 @@ def run_migrations_online() -> None:
         prefix="sqlalchemy.",
         poolclass=pool.NullPool,
     )
+    listen(connectable.engine, "connect", receive_connect)
+
 
     with connectable.connect() as connection:
         context.configure(
             connection=connection, 
             target_metadata=target_metadata,
-            render_as_batch=True
+            render_as_batch=True,
+            include_object=include_object,
         )
 
         with context.begin_transaction():

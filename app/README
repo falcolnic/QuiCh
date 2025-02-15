@@ -1,0 +1,19 @@
+### Install python dependencies:
+
+```shell
+poentry lock
+poentry install
+```
+
+### Init database
+
+Initialize database structure and create admin user
+
+```shell
+alembic upgrade head;
+```
+
+To create a new migration use:
+```shell
+alembic revision --autogenerate -m "Migration name"
+```
