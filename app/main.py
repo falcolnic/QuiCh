@@ -3,12 +3,14 @@ import logging
 import os
 from contextlib import asynccontextmanager
 from typing import Dict
+import uuid
 
 from app.api.deps import get_db, voyageai_client
 from app.api.v1 import api_router
 from app.database import init_db
 from fastapi import Depends, FastAPI, Query
 from fasthx import Jinja
+from app.models.search import SearchModel
 from app.models.texts import IdeaModel, YoutubeModel
 from app.services.answer import answer_question
 from app.services.embeddings import embed
@@ -98,12 +100,18 @@ def search(
 
     videos_count = len(set(i.video_id for i, _ in res))
 
-    # TODO
+    # TODO Use some reasonable limit
     total_results = TOP_N
-
     total_pages = (total_results + page_size - 1) // page_size
 
-    answer = answer_question(term, res[:20])
+    answer = db.scalar(select(SearchModel).filter_by(question=term))
+    if answer:
+        answer = answer.response
+    else:
+        answer = answer_question(term, res[:20])
+        db.add(SearchModel(id=uuid.uuid4(), question=term, response=answer))
+        db.commit()
+
 
     return {
         "search_term": term,

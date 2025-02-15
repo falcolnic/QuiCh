@@ -2,7 +2,10 @@ import logging
 from typing import List
 
 from fastapi import APIRouter, BackgroundTasks, Depends
+from sqlalchemy import select
 from app.api.deps import get_db, voyageai_client
+from app.models.search import SearchModel
+from app.schemas.search import SearchLogSchema
 from app.schemas.transcript import TranscriptSchema, Youtube
 from app.services.ideas_extractor import load_ideas
 from app.services.transcript import (
@@ -41,3 +44,8 @@ def extract_wisdom(videos: List[str], background_tasks: BackgroundTasks):
 @router.get("/embedding")
 def embedding(client=Depends(voyageai_client)):
     calculate_idea_embedding(client)
+
+
+@router.get("/search_log")
+def search_log(db=Depends(get_db)) -> List[SearchLogSchema]:
+    return db.scalars(select(SearchModel)).all()

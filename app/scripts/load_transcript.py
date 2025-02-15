@@ -4,7 +4,7 @@ import uuid
 from datetime import datetime, timedelta
 
 import requests
-from bs4 import BeautifulSoup # type: ignore
+from bs4 import BeautifulSoup
 from app.database import db_session
 from app.models.texts import IdeaModel
 
