@@ -16,6 +16,7 @@ from app.services.answer import answer_question
 from app.services.embeddings import embed
 from sqlalchemy import ColumnClause, Float, select, text
 from starlette.templating import Jinja2Templates
+from fastapi.staticfiles import StaticFiles
 
 logFormatter = logging.Formatter("%(asctime)s [%(levelname)s]: %(message)s")
 log = logging.getLogger()
@@ -40,7 +41,7 @@ basedir = os.path.abspath(os.path.dirname(__file__))
 
 # Create the app instance.
 app.include_router(api_router)
-# app.mount("/public", StaticFiles(directory="public"), name="public")
+app.mount("/static", StaticFiles(directory="/app/static"), name="static")# app.mount("/public", StaticFiles(directory="public"), name="public")
 # Create a FastAPI Jinja2Templates instance. This will be used in FastHX Jinja instance.
 templates = Jinja2Templates(directory=os.path.join(basedir, "templates"))
 
