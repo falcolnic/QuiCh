@@ -3,17 +3,14 @@ from typing import List
 
 from fastapi import APIRouter, BackgroundTasks, Depends
 from sqlalchemy import select
+
 from app.api.deps import get_db, voyageai_client
 from app.models.search import SearchModel
 from app.schemas.search import SearchLogSchema
 from app.schemas.transcript import TranscriptSchema, Youtube
 from app.services.ideas_extractor import load_ideas
-from app.services.transcript import (
-    calculate_idea_embedding, 
-    load_all, 
-    load_transcript, 
-    split_transcript
-)
+from app.services.transcript import (calculate_idea_embedding, load_all,
+                                     load_transcript, split_transcript)
 
 router = APIRouter()
 

@@ -4,10 +4,11 @@ import uuid
 from typing import Dict, List
 
 import anthropic
-from app.database import db_session
 from instructor import Instructor, Mode, patch
-from app.models.texts import IdeaModel
 from pydantic import BaseModel
+
+from app.database import db_session
+from app.models.texts import IdeaModel
 from app.services.chunker import to_text
 from app.services.json_utils import error_json_hook, fix_json_hook
 from app.services.transcript import load_transcript

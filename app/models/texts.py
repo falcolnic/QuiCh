@@ -2,10 +2,12 @@ import struct
 import time
 import uuid
 
+from sqlalchemy import (BLOB, JSON, Column, DateTime, ForeignKey, Integer,
+                        String)
+from sqlalchemy.orm import relationship
+
 from app.models.base_class import Base
 from app.models.custom_types import UUID_as_Integer
-from sqlalchemy import BLOB, JSON, Column, DateTime, ForeignKey, Integer, String
-from sqlalchemy.orm import relationship
 
 
 class YoutubeModel(Base):

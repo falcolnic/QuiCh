@@ -1,6 +1,7 @@
+from sqlalchemy import Column, String
+
 from app.models.base_class import Base
 from app.models.custom_types import UUID_as_Integer
-from sqlalchemy import Column, String
 
 
 class SearchModel(Base):

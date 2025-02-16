@@ -3,9 +3,11 @@ from pathlib import Path
 
 sys.path.append(str(Path(__file__).parent.parent.parent))
 
+from sqlalchemy import select
+
 from app.database import db_session
 from app.models.texts import YoutubeModel
-from sqlalchemy import select
+
 
 def check_youtube_videos():
     with db_session() as db:

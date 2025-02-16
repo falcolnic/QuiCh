@@ -1,22 +1,23 @@
 import json
 import logging
 import os
+import uuid
 from contextlib import asynccontextmanager
 from typing import Dict
-import uuid
+
+from fastapi import Depends, FastAPI, Query
+from fastapi.staticfiles import StaticFiles
+from fasthx import Jinja
+from sqlalchemy import ColumnClause, Float, select, text
+from starlette.templating import Jinja2Templates
 
 from app.api.deps import get_db, voyageai_client
 from app.api.v1 import api_router
 from app.database import init_db
-from fastapi import Depends, FastAPI, Query
-from fasthx import Jinja
 from app.models.search import SearchModel
 from app.models.texts import IdeaModel, YoutubeModel
 from app.services.answer import answer_question
 from app.services.embeddings import embed
-from sqlalchemy import ColumnClause, Float, select, text
-from starlette.templating import Jinja2Templates
-from fastapi.staticfiles import StaticFiles
 
 logFormatter = logging.Formatter("%(asctime)s [%(levelname)s]: %(message)s")
 log = logging.getLogger()

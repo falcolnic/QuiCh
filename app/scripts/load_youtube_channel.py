@@ -1,10 +1,11 @@
 import logging
 import uuid
 
-from app.database import db_session
-from app.models.texts import YOUTUBE_CHAPTER, IdeaModel, YoutubeModel
 from pytubefix import Channel
 from sqlalchemy import select
+
+from app.database import db_session
+from app.models.texts import YOUTUBE_CHAPTER, IdeaModel, YoutubeModel
 
 logger = logging.getLogger(__name__)
 

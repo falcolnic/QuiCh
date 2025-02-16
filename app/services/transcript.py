@@ -1,13 +1,15 @@
 import logging
 import uuid
 
-from app.database import db_session
-from app.models.texts import DocumentModel, IdeaModel, TranscriptionModel, embedding_encode
-from app.services.chunker import transcript_first_n_seconds
-from app.services.llm_chunks import split_transcript_document
 from sqlalchemy import desc, func, select
 from sqlalchemy.orm import Session
 from youtube_transcript_api import YouTubeTranscriptApi
+
+from app.database import db_session
+from app.models.texts import (DocumentModel, IdeaModel, TranscriptionModel,
+                              embedding_encode)
+from app.services.chunker import transcript_first_n_seconds
+from app.services.llm_chunks import split_transcript_document
 
 log = logging.getLogger(__name__)
 

@@ -1,13 +1,14 @@
+import logging
 import sys
 from pathlib import Path
-import logging
 
 sys.path.append(str(Path(__file__).parent.parent.parent))
 
-from youtube_transcript_api import YouTubeTranscriptApi
-from app.database import db_session
-from app.models.texts import YoutubeModel, TranscriptionModel
 from sqlalchemy import select
+from youtube_transcript_api import YouTubeTranscriptApi
+
+from app.database import db_session
+from app.models.texts import TranscriptionModel, YoutubeModel
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)

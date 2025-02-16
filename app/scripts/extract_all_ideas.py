@@ -1,13 +1,14 @@
+import logging
 import sys
 from pathlib import Path
-import logging
 
 sys.path.append(str(Path(__file__).parent.parent.parent))
+
+from sqlalchemy import select
 
 from app.database import db_session
 from app.models.texts import TranscriptionModel
 from app.services.ideas_extractor import load_ideas
-from sqlalchemy import select
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)

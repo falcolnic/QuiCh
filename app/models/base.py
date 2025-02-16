@@ -4,4 +4,5 @@
 
 from app.models.base_class import Base  # noqa
 from app.models.search import SearchModel  # noqa
-from app.models.texts import (DocumentModel, TranscriptionModel, IdeaModel, YoutubeModel,)  # noqa
+from app.models.texts import (DocumentModel, IdeaModel,  # noqa
+                              TranscriptionModel, YoutubeModel)

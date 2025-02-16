@@ -1,7 +1,7 @@
 # models.py
 import logging
-from pathlib import Path
 import sqlite3
+from pathlib import Path
 
 import sqlite_vec
 from sqlalchemy import create_engine, event
