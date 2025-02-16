@@ -1,11 +1,13 @@
 import json
 import logging
 import os
+from pathlib import Path
 import uuid
 from contextlib import asynccontextmanager
 from typing import Dict
 
 from fastapi import Depends, FastAPI, Query
+from fastapi.responses import FileResponse
 from fastapi.staticfiles import StaticFiles
 from fasthx import Jinja
 from sqlalchemy import ColumnClause, Float, select, text
@@ -42,7 +44,8 @@ basedir = os.path.abspath(os.path.dirname(__file__))
 
 # Create the app instance.
 app.include_router(api_router)
-app.mount("/static", StaticFiles(directory="/app/static"), name="static")# app.mount("/public", StaticFiles(directory="public"), name="public")
+app.mount("/static", StaticFiles(directory="/app/static"), name="static")
+
 # Create a FastAPI Jinja2Templates instance. This will be used in FastHX Jinja instance.
 templates = Jinja2Templates(directory=os.path.join(basedir, "templates"))
 
@@ -53,7 +56,7 @@ jinja = Jinja(templates)
 @app.get("/")
 @jinja.page("index.jinja2")
 def index() -> None:
-    """This route serves the index.html template."""
+    """This route serves the index.jinja2 template."""
     ...
 
 
@@ -67,7 +70,7 @@ def version(db=Depends(get_db)) -> dict:
 
 @app.get("/search")
 @jinja.page("search_items.jinja2")
-def search(
+async def search(
     term: str,
     page: int = Query(1, ge=1),
     page_size: int = Query(20, ge=1, le=100),
@@ -114,7 +117,6 @@ def search(
         db.add(SearchModel(id=uuid.uuid4(), question=term, response=answer))
         db.commit()
 
-
     return {
         "search_term": term,
         "answer": answer,
@@ -135,3 +137,10 @@ def search(
 @jinja.page("search_items.jinja2")
 def video(video_id: str, db=Depends(get_db)):
     db.sclar(select(YoutubeModel).filter_by(video_id=video_id))
+
+
+
+@app.exception_handler(404)
+async def custom_404_handler(request, __):
+    return templates.TemplateResponse("404.jinja2", {"request": request})
+
