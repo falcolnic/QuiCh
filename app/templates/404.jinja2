@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Page Not Found</title>
+    <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
+    <style>
+        body {
+            font-family: 'Courier New', Courier, monospace;
+            text-align: center;
+            padding: 40px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            margin: 0;
+        }
+        h1 {
+            font-size: 40px;
+            margin: 0;
+        }
+        p {
+            font-size: 18px;
+        }
+        .oops-text {
+            font-size: 24px;
+        }
+        a {
+            color: #007BFF;
+            text-decoration: none;
+        }
+        .animation-container {
+            margin: 20px 0;
+        }
+        .btn-orange, .submit, [type=submit] {
+            border: 2px solid transparent;
+            border-radius: 30px;
+            color: #0f0009;
+            display: inline-block;
+            font-size: 1.4rem; /* Reduced font size */
+            font-weight: 400;
+            line-height: 2.2rem; /* Reduced line height */
+            overflow: hidden;
+            padding: 8px 20px; /* Reduced padding */
+            position: relative;
+            text-align: center;
+            text-decoration: none !important;
+            transition: all .4s ease-in-out;
+            z-index: 1;
+            background: #ff9c1b; /* Default orange background */
+        }
+        
+        /* Background overlay layer */
+        .btn-orange:before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #fff;
+            z-index: -1;
+            transition: transform .3s ease-in-out;
+            transform: scaleX(0);
+            transform-origin: right;
+        }
+        
+        /* Hover effect: expanding background overlay */
+        .btn-orange:hover:before {
+            transform: scaleX(1);
+            transform-origin: left;
+        }
+        
+        /* On hover: change text color and border color */
+        .btn-orange:hover {
+            color: #0f0009;
+            border-color: #000; /* Set border to black on hover */
+        }            
+    </style>
+</head>
+<body>
+    <div class="animation-container">
+        <lottie-player 
+            src="https://lottie.host/3c69d672-4f65-46b1-ae8d-8e4a5dbac9fb/uB8Ghux6nT.json"
+            background="transparent" 
+            speed="1" 
+            style="width: 450px; height: 450px" 
+            loop 
+            autoplay>
+        </lottie-player>
+    </div>
+    <h1>404</h1>
+    <p class="oops-text">Oops, this is the wrong way</p>
+    <p>Sorry, something went wrong. We cannot find the page you are looking for. It has either been moved or deleted.</p>
+    <p><a href="{{ url_for('index') }}" rel="noopener" class="btn-orange">Go to homepage</a></p>
+</body>
+</html>
