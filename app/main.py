@@ -1,25 +1,23 @@
 import json
 import logging
-import os
-from pathlib import Path
 import uuid
 from contextlib import asynccontextmanager
 from typing import Dict
 
 from fastapi import Depends, FastAPI, Query
-from fastapi.responses import FileResponse
+from fastapi.responses import HTMLResponse
 from fastapi.staticfiles import StaticFiles
-from fasthx import Jinja
 from sqlalchemy import ColumnClause, Float, select, text
-from starlette.templating import Jinja2Templates
+from starlette.requests import Request
 
 from app.api.deps import get_db, voyageai_client
-from app.api.v1 import api_router
 from app.database import init_db
 from app.models.search import SearchModel
 from app.models.texts import IdeaModel, YoutubeModel
 from app.services.answer import answer_question
 from app.services.embeddings import embed
+from app.api.v1 import api_router
+from app.jinja_setup import jinja, templates
 
 logFormatter = logging.Formatter("%(asctime)s [%(levelname)s]: %(message)s")
 log = logging.getLogger()
@@ -34,23 +32,19 @@ TOP_N = 50
 @asynccontextmanager
 async def lifespan(app: FastAPI) -> None: # type: ignore
     log.info("Fast API lifespan")
-    init_db()
-    yield
+    engine = init_db()
+    try:
+        yield
+    finally:
+        log.info("Disposing database engine")
+        engine.dispose()
 
 
 app = FastAPI(openapi_url="/api/openapi.json", docs_url="/api/docs", lifespan=lifespan)
 
-basedir = os.path.abspath(os.path.dirname(__file__))
-
 # Create the app instance.
 app.include_router(api_router)
 app.mount("/static", StaticFiles(directory="/app/static"), name="static")
-
-# Create a FastAPI Jinja2Templates instance. This will be used in FastHX Jinja instance.
-templates = Jinja2Templates(directory=os.path.join(basedir, "templates"))
-
-# FastHX Jinja instance is initialized with the Jinja2Templates instance.
-jinja = Jinja(templates)
 
 
 @app.get("/")
@@ -139,8 +133,7 @@ def video(video_id: str, db=Depends(get_db)):
     db.sclar(select(YoutubeModel).filter_by(video_id=video_id))
 
 
-
 @app.exception_handler(404)
-async def custom_404_handler(request, __):
+async def custom_404_handler(request: Request, exc: Exception) -> HTMLResponse:
+    """This route serves the 404.jinja2 template."""
     return templates.TemplateResponse("404.jinja2", {"request": request})
-
