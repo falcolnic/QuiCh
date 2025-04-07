@@ -13,12 +13,25 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" rel="stylesheet">
     <style>
         body {
+            display: flex;
+            flex-direction: column;
             min-height: 100vh;
             background-color: #1f1f1f;
             color: white;
             font-family: 'Courier New', Courier, monospace;
+            overflow: hidden;
         }
 
+        html {
+            overflow: hidden;
+        }
+        .content-wrapper {
+            flex: 1; /* Ensures the content takes up remaining space */
+        }
+
+        footer {
+            margin-top: end;
+        }
 
         .navbar {
             background-color: #000; 
@@ -59,7 +72,7 @@
         .logo h1 {
             font-size: 4rem;
             font-weight: bold;
-            color: #ff9c1b; /* Orange for the logo */
+            color: #ff9c1b;
         }
 
         .search-box {
@@ -77,7 +90,6 @@
             width: 100%;
             padding: 0.5rem 1rem;
             font-size: 1.1rem;
-            background-color: #f0f0f0;
             border-radius: 20px;
             line-height: 1.5rem;
             display: flex;
@@ -90,13 +102,13 @@
         }
 
         .search-icon {
-            color: #8a8a8a; /* Orange search icon */
+            color: #8a8a8a;
             padding: 0 1rem;
             cursor: pointer;
         }
 
         .search-icon:hover {
-            color: #000; /* Black hover effect for icon */
+            color: #000;
         }
 
         @media (max-width: 576px) {
@@ -108,11 +120,11 @@
     {% block header %} {% endblock %}
 </head>
 <body>
-
-<!-- START CODING HERE -->
-{% block content %} {% endblock content %}
-<!-- END -->
-{% block script %} {% endblock script %}
-<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/js/bootstrap.bundle.min.js"></script>
+    <div class="content-wrapper">
+        {% block content %} {% endblock content %}
+    </div>
+    {% include 'footer.jinja2' %}
+    {% block script %} {% endblock script %}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

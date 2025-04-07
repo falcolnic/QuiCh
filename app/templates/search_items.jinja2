@@ -2,6 +2,10 @@
 {% block header %}
     <title>Home</title>
     <style>
+        body, html {
+            overflow: auto;
+        }
+
         .search-result {
             transition: transform 0.2s;
             border-left: 3px solid transparent;
@@ -35,7 +39,6 @@
             top: 1rem;
         }
 
-        /* Custom pagination styling */
         .pagination .page-link {
             color: #000;
             background-color: #fff;
