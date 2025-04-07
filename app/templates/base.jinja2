@@ -14,31 +14,34 @@
     <style>
         body {
             min-height: 100vh;
-            background-color: #f8f9fa;
+            background-color: #1f1f1f;
+            color: white;
+            font-family: 'Courier New', Courier, monospace;
         }
 
+
         .navbar {
-            background-color: white;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+            background-color: #000; 
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
             padding: 0.75rem 1rem;
         }
 
         .navbar-brand, .nav-link {
-            color: #000 !important;
+            color: white !important;
             font-weight: 500;
         }
 
         .nav-link:hover {
-            color: #333 !important;
+            color: #ff9c1b !important;
         }
 
         .btn-outline-dark {
-            border-color: #000;
-            color: #000;
+            border-color: #ff9c1b;
+            color: #ff9c1b;
         }
 
         .btn-outline-dark:hover {
-            background-color: #000;
+            background-color: #ff9c1b;
             color: white;
         }
 
@@ -50,6 +53,13 @@
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
+            text-align: center;
+        }
+
+        .logo h1 {
+            font-size: 4rem;
+            font-weight: bold;
+            color: #ff9c1b; /* Orange for the logo */
         }
 
         .search-box {
@@ -67,42 +77,31 @@
             width: 100%;
             padding: 0.5rem 1rem;
             font-size: 1.1rem;
+            background-color: #f0f0f0;
+            border-radius: 20px;
+            line-height: 1.5rem;
+            display: flex;
+            align-items: center;
         }
 
         .search-input:focus {
             outline: none;
+            background-color: #fff;
         }
 
         .search-icon {
-            color: #6c757d;
+            color: #8a8a8a; /* Orange search icon */
             padding: 0 1rem;
             cursor: pointer;
         }
 
         .search-icon:hover {
-            color: #000;
-        }
-
-        .logo {
-            text-align: center;
-            margin-bottom: 2rem;
-        }
-
-        .logo h1 {
-            font-size: 4rem;
-            font-weight: bold;
-            color: #000;
-            margin: 0;
+            color: #000; /* Black hover effect for icon */
         }
 
         @media (max-width: 576px) {
             .logo h1 {
                 font-size: 3rem;
-            }
-
-            .navbar-nav {
-                flex-direction: row;
-                gap: 1rem;
             }
         }
     </style>

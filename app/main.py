@@ -42,7 +42,6 @@ async def lifespan(app: FastAPI) -> None: # type: ignore
 
 app = FastAPI(openapi_url="/api/openapi.json", docs_url="/api/docs", lifespan=lifespan)
 
-# Create the app instance.
 app.include_router(api_router)
 app.mount("/static", StaticFiles(directory="/app/static"), name="static")
 
@@ -99,7 +98,7 @@ async def search(
 
     videos_count = len(set(i.video_id for i, _ in res))
 
-    # TODO Use some reasonable limit
+    # TODO Use some limit
     total_results = TOP_N
     total_pages = (total_results + page_size - 1) // page_size
 
@@ -114,7 +113,7 @@ async def search(
     return {
         "search_term": term,
         "answer": answer,
-        "search_videos_count": videos_count,
+        "search_videos_count": videos_count, # mentions count
         "current_page": page,
         "total_pages": total_pages,
         "docs": [
