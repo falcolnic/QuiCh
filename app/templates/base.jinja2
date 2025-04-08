@@ -9,36 +9,50 @@
     <link rel="manifest" href="/static/site.webmanifest?v=1">
 
     <title>Search Page</title>
+    <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" rel="stylesheet">
     <style>
         body {
+            display: flex;
+            flex-direction: column;
             min-height: 100vh;
-            background-color: #f8f9fa;
+            background-color: #1f1f1f;
+            color: white;
+            font-family: 'Courier New', Courier, monospace;
+        }
+
+        .content-wrapper {
+            flex: 1;
+        }
+
+        footer {
+            background-color: #161616;
+            color: white;
+            padding: 1rem;
         }
 
         .navbar {
-            background-color: white;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+            background-color: #161616; 
             padding: 0.75rem 1rem;
         }
 
         .navbar-brand, .nav-link {
-            color: #000 !important;
+            color: white !important;
             font-weight: 500;
         }
 
-        .nav-link:hover {
-            color: #333 !important;
+        .navbar .nav-link:hover {
+            color: #ff9c1b !important;
         }
 
         .btn-outline-dark {
-            border-color: #000;
-            color: #000;
+            border-color: #ff9c1b;
+            color: #ff9c1b;
         }
 
         .btn-outline-dark:hover {
-            background-color: #000;
+            background-color: #ff9c1b;
             color: white;
         }
 
@@ -50,6 +64,13 @@
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
+            text-align: center;
+        }
+
+        .logo h1 {
+            font-size: 4rem;
+            font-weight: bold;
+            color: #ff9c1b;
         }
 
         .search-box {
@@ -67,14 +88,19 @@
             width: 100%;
             padding: 0.5rem 1rem;
             font-size: 1.1rem;
+            border-radius: 20px;
+            line-height: 1.5rem;
+            display: flex;
+            align-items: center;
         }
 
         .search-input:focus {
             outline: none;
+            background-color: #fff;
         }
 
         .search-icon {
-            color: #6c757d;
+            color: #8a8a8a;
             padding: 0 1rem;
             cursor: pointer;
         }
@@ -83,37 +109,24 @@
             color: #000;
         }
 
-        .logo {
-            text-align: center;
-            margin-bottom: 2rem;
-        }
-
-        .logo h1 {
-            font-size: 4rem;
-            font-weight: bold;
-            color: #000;
-            margin: 0;
+        .shadow-orange {
+            box-shadow: 0 4px 60px rgba(255, 156, 27, 0.2);
         }
 
         @media (max-width: 576px) {
             .logo h1 {
                 font-size: 3rem;
             }
-
-            .navbar-nav {
-                flex-direction: row;
-                gap: 1rem;
-            }
         }
     </style>
     {% block header %} {% endblock %}
 </head>
 <body>
-
-<!-- START CODING HERE -->
-{% block content %} {% endblock content %}
-<!-- END -->
-{% block script %} {% endblock script %}
-<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/js/bootstrap.bundle.min.js"></script>
+    <div class="content-wrapper">
+        {% block content %} {% endblock content %}
+    </div>
+    {% include 'footer.jinja2' %}
+    {% block script %} {% endblock script %}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

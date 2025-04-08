@@ -19,3 +19,8 @@ processes = [ "app" ]
 cpu_kind = "shared"
 cpus = 1
 memory = "512mb"
+
+[metrics]
+  port = 8080
+  path = "/metrics"
+  app = "quich-search"
