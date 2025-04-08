@@ -102,13 +102,21 @@ def load_ideas(videos):
             chunks = len(t.transcript) // 500
             chunk_length = int(len(t.transcript) / chunks)
             for i in range(chunks):
-                log.info("ID: %s [%s/%s] Extract ideas", video_id, i, chunks)
+                log.info(
+                    "ID: %s [%s/%s] Extract ideas",
+                    video_id,
+                    i,
+                    chunks,
+                )
                 chunk = t.transcript[i * chunk_length : i * chunk_length + chunk_length]
                 text = to_text(chunk)
                 try:
                     res, _ = get_ideas(text)
                 except Exception as e:
-                    log.error("Something went wrong while extracting ideas: %s", e)
+                    log.error(
+                        "Something went wrong while extracting ideas: %s",
+                        e,
+                    )
                     continue
 
                 db.add_all(

@@ -39,7 +39,11 @@ def voyageai_client():
 
 def get_current_user(token: str = Depends(oauth2_scheme)):
     try:
-        payload = jwt.decode(token, app_config.SECRET_KEY, algorithms=[app_config.ALGORITHM])
+        payload = jwt.decode(
+            token,
+            app_config.SECRET_KEY,
+            algorithms=[app_config.ALGORITHM],
+        )
         token_data = TokenPayloadSchema(**payload)
     except Exception:
         raise credential_exception

@@ -40,7 +40,11 @@ async def lifespan(app: FastAPI) -> None:  # type: ignore
         engine.dispose()
 
 
-app = FastAPI(openapi_url="/api/openapi.json", docs_url="/api/docs", lifespan=lifespan)
+app = FastAPI(
+    openapi_url="/api/openapi.json",
+    docs_url="/api/docs",
+    lifespan=lifespan,
+)
 
 app.include_router(api_router)
 app.mount("/static", StaticFiles(directory="app/static"), name="static")

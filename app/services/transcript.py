@@ -43,7 +43,9 @@ def split_transcript(transcript_id: uuid.UUID, from_start=0):
             transcript.transcript[-1]["start"],
         )
 
-        chunk, is_last = transcript_first_n_seconds(transcript.transcript, from_start=from_start)
+        chunk, is_last = transcript_first_n_seconds(
+            transcript.transcript, from_start=from_start
+        )
 
         idx = 0
         while chunk is not None:
@@ -73,7 +75,9 @@ def split_transcript(transcript_id: uuid.UUID, from_start=0):
             if is_last:
                 break
 
-            chunk, is_last = transcript_first_n_seconds(transcript.transcript, from_start)
+            chunk, is_last = transcript_first_n_seconds(
+                transcript.transcript, from_start
+            )
 
         log.info("[%s] Done processing transcript", transcript.video_id)
 
@@ -114,7 +118,9 @@ def compile_documents(chunk, res, usage, video_id):
             )
             raise ex
 
-        chunks = [chunk for start, chunk in text_json.items() if d.start <= start < d.end]
+        chunks = [
+            chunk for start, chunk in text_json.items() if d.start <= start < d.end
+        ]
         docs.append(
             DocumentModel(
                 id=uuid.uuid4(),
@@ -133,9 +139,16 @@ def compile_documents(chunk, res, usage, video_id):
 
 def calculate_doc_embedding(client):
     with db_session() as db:
-        docs = db.scalars(select(DocumentModel).where(DocumentModel.source_embedding is None)).all()
+        docs = db.scalars(
+            select(DocumentModel).where(DocumentModel.source_embedding is None)
+        ).all()
         for idx, d in enumerate(docs):
-            log.info("[%s/%s]Processing document %s", idx, len(docs), d.title)
+            log.info(
+                "[%s/%s]Processing document %s",
+                idx,
+                len(docs),
+                d.title,
+            )
             embeddings = client.embed(
                 [d.title, d.summary, d.source], model="voyage-3-lite"
             ).embeddings
@@ -207,5 +220,11 @@ def load_all(videos):
             except Exception as e:
                 transcript.status = "ERROR"
                 transcript.error = str(e)
-                log.error("[%s/%s] Process: %s. ERROR: %s", idx, len(videos), v, e)
+                log.error(
+                    "[%s/%s] Process: %s. ERROR: %s",
+                    idx,
+                    len(videos),
+                    v,
+                    e,
+                )
             db.commit()

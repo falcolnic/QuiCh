@@ -37,9 +37,9 @@ def create_user(user: UserCreateSchema, db: Annotated[Session, Depends(get_db)])
 def login_for_access_token(
     form_data: Annotated[OAuth2PasswordRequestForm, Depends()],
 ):
-    if form_data.password != os.getenv("API_PASSWORD") or form_data.username != os.getenv(
-        "API_USER_ID"
-    ):
+    if form_data.password != os.getenv(
+        "API_PASSWORD"
+    ) or form_data.username != os.getenv("API_USER_ID"):
         log.info(f"Invalid login attempt from user: {form_data.username}")
 
         raise credential_exception

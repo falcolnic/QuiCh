@@ -23,7 +23,9 @@ class YoutubeModel(Base):
     views = Column(Integer)
 
     # One-to-one relationship with TranscriptionModel
-    transcription = relationship("TranscriptionModel", back_populates="youtube", uselist=False)
+    transcription = relationship(
+        "TranscriptionModel", back_populates="youtube", uselist=False
+    )
     # One-to-many relationship with DocumentModel
     ideas = relationship("IdeaModel", back_populates="youtube")
 
@@ -42,7 +44,12 @@ class TranscriptionModel(Base):
 
     id = Column(UUID_as_Integer, primary_key=True)
     transcript = Column(JSON, nullable=False)
-    video_id = Column(String, ForeignKey("youtube.video_id"), unique=True, nullable=False)
+    video_id = Column(
+        String,
+        ForeignKey("youtube.video_id"),
+        unique=True,
+        nullable=False,
+    )
     status = Column(String, nullable=True)
     error = Column(String, nullable=True)
 

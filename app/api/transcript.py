@@ -23,7 +23,9 @@ log = logging.getLogger(__name__)
 
 @router.post("/transcript")
 def save_transcript(
-    video: Youtube, background_tasks: BackgroundTasks, db=Depends(get_db)
+    video: Youtube,
+    background_tasks: BackgroundTasks,
+    db=Depends(get_db),
 ) -> TranscriptSchema:
     transcript = load_transcript(db, video_id=video.video_id)
 

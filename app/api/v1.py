@@ -19,4 +19,6 @@ authenticated_api_router.include_router(transcript.router, tags=["Transcripts"])
 api_router = APIRouter(default_response_class=JSONResponse)
 
 api_router.include_router(unauthenticated_api_router)
-api_router.include_router(authenticated_api_router, dependencies=[PROTECTED], prefix="/api")
+api_router.include_router(
+    authenticated_api_router, dependencies=[PROTECTED], prefix="/api"
+)

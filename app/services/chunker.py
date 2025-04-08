@@ -3,7 +3,9 @@ from typing import Dict, List
 
 
 def transcript_first_n_seconds(
-    transcript: List[Dict], from_start: int = 0, first_seconds: int = 600
+    transcript: List[Dict],
+    from_start: int = 0,
+    first_seconds: int = 600,
 ):
     current_chunks = []
     chunk_duration = 0

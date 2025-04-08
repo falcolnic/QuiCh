@@ -9,7 +9,10 @@ from sqlalchemy import engine_from_config, pool
 from sqlalchemy.event import listen
 
 # Add the project root directory to the Python path
-sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "..")))
+sys.path.insert(
+    0,
+    os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "..")),
+)
 
 # this is the Alembic Config object, which provides
 # access to the values within the .ini file in use.
@@ -92,7 +95,9 @@ def include_object(object, name, type_, reflected, compare_to):
         "vector_summary_chunks",
         "vss_articles",
     ]
-    if type_ == "table" and (name in IGNORE_TABLES or object.info.get("skip_autogenerate", False)):
+    if type_ == "table" and (
+        name in IGNORE_TABLES or object.info.get("skip_autogenerate", False)
+    ):
         return False
 
     elif type_ == "column" and object.info.get("skip_autogenerate", False):

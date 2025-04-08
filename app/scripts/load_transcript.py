@@ -85,7 +85,10 @@ def fetch_all_transcriptions_and_videos(api_url):
         transcription = fetch_transcription_text(url)
         video_id = extract_youtube_video_id(url)
         print("extracted video id", video_id)
-        data[url] = {"transcription": transcription, "video_id": video_id}
+        data[url] = {
+            "transcription": transcription,
+            "video_id": video_id,
+        }
     return data
 
 

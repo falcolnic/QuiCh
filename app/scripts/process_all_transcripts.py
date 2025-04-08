@@ -21,7 +21,8 @@ def process_all_transcripts():
             select(YoutubeModel.video_id)
             .outerjoin(YoutubeModel.transcription)
             .where(
-                (TranscriptionModel.status != "COMPLETED") | (TranscriptionModel.video_id == None)
+                (TranscriptionModel.status != "COMPLETED")
+                | (TranscriptionModel.video_id == None)
             )
         ).all()
 
