@@ -9,8 +9,12 @@ from app.models.search import SearchModel
 from app.schemas.search import SearchLogSchema
 from app.schemas.transcript import TranscriptSchema, Youtube
 from app.services.ideas_extractor import load_ideas
-from app.services.transcript import (calculate_idea_embedding, load_all,
-                                     load_transcript, split_transcript)
+from app.services.transcript import (
+    calculate_idea_embedding,
+    load_all,
+    load_transcript,
+    split_transcript,
+)
 
 router = APIRouter()
 
@@ -19,7 +23,9 @@ log = logging.getLogger(__name__)
 
 @router.post("/transcript")
 def save_transcript(
-    video: Youtube, background_tasks: BackgroundTasks, db=Depends(get_db)
+    video: Youtube,
+    background_tasks: BackgroundTasks,
+    db=Depends(get_db),
 ) -> TranscriptSchema:
     transcript = load_transcript(db, video_id=video.video_id)
 

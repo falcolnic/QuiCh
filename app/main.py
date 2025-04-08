@@ -11,13 +11,13 @@ from sqlalchemy import ColumnClause, Float, select, text
 from starlette.requests import Request
 
 from app.api.deps import get_db, voyageai_client
+from app.api.v1 import api_router
 from app.database import init_db
+from app.jinja_setup import jinja, templates
 from app.models.search import SearchModel
 from app.models.texts import IdeaModel, YoutubeModel
 from app.services.answer import answer_question
 from app.services.embeddings import embed
-from app.api.v1 import api_router
-from app.jinja_setup import jinja, templates
 
 logFormatter = logging.Formatter("%(asctime)s [%(levelname)s]: %(message)s")
 log = logging.getLogger()
@@ -30,7 +30,7 @@ TOP_N = 50
 
 
 @asynccontextmanager
-async def lifespan(app: FastAPI) -> None: # type: ignore
+async def lifespan(app: FastAPI) -> None:  # type: ignore
     log.info("Fast API lifespan")
     engine = init_db()
     try:
@@ -40,7 +40,11 @@ async def lifespan(app: FastAPI) -> None: # type: ignore
         engine.dispose()
 
 
-app = FastAPI(openapi_url="/api/openapi.json", docs_url="/api/docs", lifespan=lifespan)
+app = FastAPI(
+    openapi_url="/api/openapi.json",
+    docs_url="/api/docs",
+    lifespan=lifespan,
+)
 
 app.include_router(api_router)
 app.mount("/static", StaticFiles(directory="app/static"), name="static")
@@ -131,7 +135,7 @@ async def search(
     return {
         "search_term": term,
         "answer": answer,
-        "search_videos_count": videos_count, # mentions count
+        "search_videos_count": videos_count,  # mentions count
         "current_page": page,
         "total_pages": total_pages,
         "docs": [

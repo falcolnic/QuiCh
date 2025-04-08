@@ -13,6 +13,7 @@ from app.models.texts import TranscriptionModel, YoutubeModel
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
+
 def process_transcripts():
     with db_session() as db:
         # Get all videos without transcripts
@@ -21,24 +22,24 @@ def process_transcripts():
             .outerjoin(YoutubeModel.transcription)
             .where(TranscriptionModel.video_id == None)
         ).all()
-        
+
         logger.info(f"Found {len(videos)} videos without transcripts")
-        
+
         for video in videos:
             try:
                 logger.info(f"Processing transcript for {video.video_id}")
                 transcript = YouTubeTranscriptApi.get_transcript(video.video_id)
-                
+
                 db.add(
                     TranscriptionModel(
                         video_id=video.video_id,
                         transcript=transcript,
-                        status="completed"
+                        status="completed",
                     )
                 )
                 db.commit()
                 logger.info(f"Saved transcript for {video.video_id}")
-                
+
             except Exception as e:
                 logger.error(f"Error processing {video.video_id}: {str(e)}")
                 db.add(
@@ -46,10 +47,11 @@ def process_transcripts():
                         video_id=video.video_id,
                         transcript={},
                         status="error",
-                        error=str(e)
+                        error=str(e),
                     )
                 )
                 db.commit()
+
 
 if __name__ == "__main__":
     process_transcripts()

@@ -1,7 +1,7 @@
 """Initial migration
 
 Revision ID: 96c5be368359
-Revises: 
+Revises: initial
 Create Date: 2024-10-22 14:45:31.983559
 
 """
@@ -36,35 +36,43 @@ def upgrade() -> None:
         sa.Column("context", sa.String(), nullable=True),
         sa.Column("start", sa.Integer(), nullable=True),
         sa.Column("embedding", sa.LargeBinary(), nullable=True),
-        sa.PrimaryKeyConstraint("id")
+        sa.PrimaryKeyConstraint("id"),
     )
     op.create_table(
         "docs_new",
         sa.Column("id", sa.UUID(), nullable=False),
         sa.Column("chunk_id", sa.String(), nullable=False),
         sa.Column("video_id", sa.String(), nullable=False),
-        sa.PrimaryKeyConstraint("id")
+        sa.PrimaryKeyConstraint("id"),
     )
     op.create_table(
         "transcriptions_new",
         sa.Column("id", sa.UUID(), nullable=False),
         sa.Column("video_id", sa.String(), nullable=False),
         sa.Column("transcript", sa.String(), nullable=False),
-        sa.PrimaryKeyConstraint("id")
+        sa.PrimaryKeyConstraint("id"),
     )
     op.create_table(
         "videos_new",
         sa.Column("id", sa.UUID(), nullable=False),
         sa.Column("transcript", sa.String(), nullable=False),
         sa.Column("video_id", sa.String(), nullable=False),
-        sa.PrimaryKeyConstraint("id")
+        sa.PrimaryKeyConstraint("id"),
     )
 
     # Copy data from old tables to new tables
-    op.execute("INSERT INTO chunks_new (id, chunk_id, title, source, context, start, embedding) SELECT id, chunk_id, title, source, context, start, embedding FROM chunks")
-    op.execute("INSERT INTO docs_new (id, chunk_id, video_id) SELECT id, chunk_id, video_id FROM docs")
-    op.execute("INSERT INTO transcriptions_new (id, video_id, transcript) SELECT id, video_id, transcript FROM transcriptions")
-    op.execute("INSERT INTO videos_new (id, transcript, video_id) SELECT id, transcript, video_id FROM videos")
+    op.execute(
+        "INSERT INTO chunks_new (id, chunk_id, title, source, context, start, embedding) SELECT id, chunk_id, title, source, context, start, embedding FROM chunks"
+    )
+    op.execute(
+        "INSERT INTO docs_new (id, chunk_id, video_id) SELECT id, chunk_id, video_id FROM docs"
+    )
+    op.execute(
+        "INSERT INTO transcriptions_new (id, video_id, transcript) SELECT id, video_id, transcript FROM transcriptions"
+    )
+    op.execute(
+        "INSERT INTO videos_new (id, transcript, video_id) SELECT id, transcript, video_id FROM videos"
+    )
 
     # Drop old tables
     op.drop_table("chunks")
@@ -92,35 +100,43 @@ def downgrade() -> None:
         sa.Column("context", sa.String(), nullable=True),
         sa.Column("start", sa.Integer(), nullable=True),
         sa.Column("embedding", sa.LargeBinary(), nullable=True),
-        sa.PrimaryKeyConstraint("id")
+        sa.PrimaryKeyConstraint("id"),
     )
     op.create_table(
         "docs_old",
         sa.Column("id", sa.NUMERIC(), nullable=False),
         sa.Column("chunk_id", sa.String(), nullable=False),
         sa.Column("video_id", sa.String(), nullable=False),
-        sa.PrimaryKeyConstraint("id")
+        sa.PrimaryKeyConstraint("id"),
     )
     op.create_table(
         "transcriptions_old",
         sa.Column("id", sa.NUMERIC(), nullable=False),
         sa.Column("video_id", sa.String(), nullable=False),
         sa.Column("transcript", sa.String(), nullable=False),
-        sa.PrimaryKeyConstraint("id")
+        sa.PrimaryKeyConstraint("id"),
     )
     op.create_table(
         "videos_old",
         sa.Column("id", sa.NUMERIC(), nullable=False),
         sa.Column("transcript", sa.String(), nullable=False),
         sa.Column("video_id", sa.String(), nullable=False),
-        sa.PrimaryKeyConstraint("id")
+        sa.PrimaryKeyConstraint("id"),
     )
 
     # Copy data from new tables to old tables
-    op.execute("INSERT INTO chunks_old (id, chunk_id, title, source, context, start, embedding) SELECT id, chunk_id, title, source, context, start, embedding FROM chunks")
-    op.execute("INSERT INTO docs_old (id, chunk_id, video_id) SELECT id, chunk_id, video_id FROM docs")
-    op.execute("INSERT INTO transcriptions_old (id, video_id, transcript) SELECT id, video_id, transcript FROM transcriptions")
-    op.execute("INSERT INTO videos_old (id, transcript, video_id) SELECT id, transcript, video_id FROM videos")
+    op.execute(
+        "INSERT INTO chunks_old (id, chunk_id, title, source, context, start, embedding) SELECT id, chunk_id, title, source, context, start, embedding FROM chunks"
+    )
+    op.execute(
+        "INSERT INTO docs_old (id, chunk_id, video_id) SELECT id, chunk_id, video_id FROM docs"
+    )
+    op.execute(
+        "INSERT INTO transcriptions_old (id, video_id, transcript) SELECT id, video_id, transcript FROM transcriptions"
+    )
+    op.execute(
+        "INSERT INTO videos_old (id, transcript, video_id) SELECT id, transcript, video_id FROM videos"
+    )
 
     # Drop new tables
     op.drop_table("chunks")

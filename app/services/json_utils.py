@@ -62,7 +62,10 @@ Before returning the result double check does JSON syntax is correct.
                     }
                 ],
             },
-            {"role": "assistant", "content": "Here is the JSON requested:"},
+            {
+                "role": "assistant",
+                "content": "Here is the JSON requested:",
+            },
         ],
         # extra_headers={"anthropic-beta": "prompt-caching-2024-07-31"}
     )

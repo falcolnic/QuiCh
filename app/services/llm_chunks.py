@@ -18,12 +18,14 @@ anthropic_api_key = os.getenv("ANTHROPIC_API_KEY")
 anthropic_client = anthropic.Anthropic(api_key=anthropic_api_key)
 anthropic_client = instructor.from_anthropic(anthropic_client)
 
+
 def is_json(docs):
     try:
         json.loads(docs)
         return True
     except JSONDecodeError:
         return False
+
 
 def fix_json_hook(response):
     if isinstance(response.content[0].input["docs"], str):
@@ -62,7 +64,9 @@ def split_document(llm_chunks, document):
     if len(docs) != len(llm_chunks):
         # log.error(f"Given LLM chunks: {llm_chunks}")
         # log.error(f"Given doc: {document['content']}")
-        log.error(f"Invalid number of chunks. Expected {len(llm_chunks)} but got {len(docs)}")
+        log.error(
+            f"Invalid number of chunks. Expected {len(llm_chunks)} but got {len(docs)}"
+        )
         return []
 
     for doc, c in zip(docs, llm_chunks):
@@ -134,7 +138,10 @@ Before returning the result double check does JSON syntax is correct.
                     }
                 ],
             },
-            {"role": "assistant", "content": "Here is the JSON requested:"},
+            {
+                "role": "assistant",
+                "content": "Here is the JSON requested:",
+            },
         ],
     )
 
