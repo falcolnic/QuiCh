@@ -9,6 +9,7 @@
     <link rel="manifest" href="/static/site.webmanifest?v=1">
 
     <title>Search Page</title>
+    <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" rel="stylesheet">
     <style>
@@ -19,23 +20,20 @@
             background-color: #1f1f1f;
             color: white;
             font-family: 'Courier New', Courier, monospace;
-            overflow: hidden;
         }
 
-        html {
-            overflow: hidden;
-        }
         .content-wrapper {
-            flex: 1; /* Ensures the content takes up remaining space */
+            flex: 1;
         }
 
         footer {
-            margin-top: end;
+            background-color: #161616;
+            color: white;
+            padding: 1rem;
         }
 
         .navbar {
-            background-color: #000; 
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+            background-color: #161616; 
             padding: 0.75rem 1rem;
         }
 
@@ -44,7 +42,7 @@
             font-weight: 500;
         }
 
-        .nav-link:hover {
+        .navbar .nav-link:hover {
             color: #ff9c1b !important;
         }
 
@@ -109,6 +107,10 @@
 
         .search-icon:hover {
             color: #000;
+        }
+
+        .shadow-orange {
+            box-shadow: 0 4px 60px rgba(255, 156, 27, 0.2);
         }
 
         @media (max-width: 576px) {

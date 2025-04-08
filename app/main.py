@@ -43,7 +43,7 @@ async def lifespan(app: FastAPI) -> None: # type: ignore
 app = FastAPI(openapi_url="/api/openapi.json", docs_url="/api/docs", lifespan=lifespan)
 
 app.include_router(api_router)
-app.mount("/static", StaticFiles(directory="/app/static"), name="static")
+app.mount("/static", StaticFiles(directory="app/static"), name="static")
 
 
 @app.get("/")
@@ -51,6 +51,14 @@ app.mount("/static", StaticFiles(directory="/app/static"), name="static")
 def index() -> None:
     """This route serves the index.jinja2 template."""
     ...
+
+
+@app.get("/blog")
+@jinja.page("blog.jinja2")
+def blog() -> None:
+    """This route serves the blog.jinja2 template."""
+    ...
+
 
 @app.get("/LICENSE")
 @jinja.page("LICENSE.jinja2")
