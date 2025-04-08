@@ -13,6 +13,7 @@ from app.services.transcript import load_all
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
+
 def process_all_transcripts():
     with db_session() as db:
         # Get all video IDs that don't have completed transcriptions
@@ -20,18 +21,18 @@ def process_all_transcripts():
             select(YoutubeModel.video_id)
             .outerjoin(YoutubeModel.transcription)
             .where(
-                (TranscriptionModel.status != "COMPLETED") | 
-                (TranscriptionModel.video_id == None)
+                (TranscriptionModel.status != "COMPLETED") | (TranscriptionModel.video_id == None)
             )
         ).all()
-        
+
         logger.info(f"Found {len(videos)} videos to process")
         if not videos:
             logger.info("All videos are already processed!")
             return
-            
+
         # Process using existing service
         load_all(videos)
+
 
 if __name__ == "__main__":
     process_all_transcripts()

@@ -13,6 +13,7 @@ from app.services.ideas_extractor import load_ideas
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
+
 def extract_all_ideas():
     with db_session() as db:
         # Get video IDs with completed transcripts but no ideas
@@ -22,14 +23,15 @@ def extract_all_ideas():
             .outerjoin(TranscriptionModel.ideas)
             .where(TranscriptionModel.ideas == None)
         ).all()
-        
+
         logger.info(f"Found {len(videos)} videos needing idea extraction")
         if not videos:
             logger.info("No new videos to process!")
             return
-            
+
         # Process using existing ideas extractor
         load_ideas(videos)
+
 
 if __name__ == "__main__":
     extract_all_ideas()

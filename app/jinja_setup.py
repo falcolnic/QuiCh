@@ -1,4 +1,5 @@
 import os
+
 from fasthx import Jinja
 from starlette.templating import Jinja2Templates
 

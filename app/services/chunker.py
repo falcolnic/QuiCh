@@ -2,7 +2,9 @@ from datetime import timedelta
 from typing import Dict, List
 
 
-def transcript_first_n_seconds(transcript: List[Dict], from_start: int = 0, first_seconds: int = 600):
+def transcript_first_n_seconds(
+    transcript: List[Dict], from_start: int = 0, first_seconds: int = 600
+):
     current_chunks = []
     chunk_duration = 0
 
@@ -30,6 +32,7 @@ def transcript_first_n_seconds(transcript: List[Dict], from_start: int = 0, firs
         }, True
     else:
         return None, True
+
 
 def to_text(current_chunks):
     text = ""

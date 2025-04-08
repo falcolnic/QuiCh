@@ -5,6 +5,7 @@ Revises: 5844d490e443
 Create Date: 2025-02-14 21:26:13.182732
 
 """
+
 from typing import Sequence, Union
 
 import sqlalchemy as sa
@@ -12,8 +13,8 @@ from alembic import op
 from models import custom_types
 
 # revision identifiers, used by Alembic.
-revision: str = '91375a444acd'
-down_revision: Union[str, None] = '5844d490e443'
+revision: str = "91375a444acd"
+down_revision: Union[str, None] = "5844d490e443"
 branch_labels: Union[str, Sequence[str], None] = None
 depends_on: Union[str, Sequence[str], None] = None
 
@@ -35,7 +36,10 @@ def upgrade() -> None:
     )
     with op.batch_alter_table("transcriptions", schema=None) as batch_op:
         batch_op.create_foreign_key(
-            "youtube_id_transcriptions_foreign_key", "youtube", ["video_id"], ["video_id"]
+            "youtube_id_transcriptions_foreign_key",
+            "youtube",
+            ["video_id"],
+            ["video_id"],
         )
     # ### end Alembic commands ###
 

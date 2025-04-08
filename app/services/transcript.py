@@ -6,8 +6,12 @@ from sqlalchemy.orm import Session
 from youtube_transcript_api import YouTubeTranscriptApi
 
 from app.database import db_session
-from app.models.texts import (DocumentModel, IdeaModel, TranscriptionModel,
-                              embedding_encode)
+from app.models.texts import (
+    DocumentModel,
+    IdeaModel,
+    TranscriptionModel,
+    embedding_encode,
+)
 from app.services.chunker import transcript_first_n_seconds
 from app.services.llm_chunks import split_transcript_document
 
@@ -45,7 +49,10 @@ def split_transcript(transcript_id: uuid.UUID, from_start=0):
         while chunk is not None:
             result = []
             log.info(
-                "[%s] Processing chunk %s, from start %s", transcript.video_id, idx, from_start
+                "[%s] Processing chunk %s, from start %s",
+                transcript.video_id,
+                idx,
+                from_start,
             )
             idx += 1
 

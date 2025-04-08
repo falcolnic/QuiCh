@@ -2,8 +2,7 @@ import struct
 import time
 import uuid
 
-from sqlalchemy import (BLOB, JSON, Column, DateTime, ForeignKey, Integer,
-                        String)
+from sqlalchemy import BLOB, JSON, Column, DateTime, ForeignKey, Integer, String
 from sqlalchemy.orm import relationship
 
 from app.models.base_class import Base
@@ -100,6 +99,7 @@ class IdeaModel(Base):
     @property
     def start_h(self):
         return time.strftime("%H:%M:%S", time.gmtime(self.start))
+
 
 def embedding_decode(blob):
     return struct.unpack("f" * 512, blob)

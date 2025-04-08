@@ -1,14 +1,14 @@
-import re
 from datetime import datetime, timedelta
 from typing import Any, Union
 
 import jwt
-from passlib.context import CryptContext
 from jwt import PyJWTError
+from passlib.context import CryptContext
 
 from app.config import app_config
 
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
+
 
 def create_access_token(subject: Union[str, Any]) -> str:
     expire = datetime.utcnow() + timedelta(minutes=app_config.ACCESS_TOKEN_EXPIRE_MINUTES)

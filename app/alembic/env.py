@@ -1,4 +1,3 @@
-
 import logging
 import os
 import sys
@@ -10,7 +9,7 @@ from sqlalchemy import engine_from_config, pool
 from sqlalchemy.event import listen
 
 # Add the project root directory to the Python path
-sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..')))
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "..")))
 
 # this is the Alembic Config object, which provides
 # access to the values within the .ini file in use.
@@ -116,10 +115,9 @@ def run_migrations_online() -> None:
     )
     listen(connectable.engine, "connect", receive_connect)
 
-
     with connectable.connect() as connection:
         context.configure(
-            connection=connection, 
+            connection=connection,
             target_metadata=target_metadata,
             render_as_batch=True,
             include_object=include_object,

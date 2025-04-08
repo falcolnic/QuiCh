@@ -42,26 +42,27 @@ def init_db() -> None:
             log.info("Drop virtual tables for embeddings")
             # Use raw execute for virtual table operations
             connection.execute("DROP TABLE IF EXISTS vector_source")
-            
+
             log.info("Create virtual vector tables for embeddings")
             connection.execute(
                 "CREATE VIRTUAL TABLE IF NOT EXISTS vector_source USING vec0(embedding float[512])"
             )
-            
+
             log.info("Load embeddings into virtual vector table")
-            connection.execute("""
+            connection.execute(
+                """
                 INSERT INTO vector_source (rowid, embedding) 
                 SELECT rowid, embedding 
                 FROM ideas 
                 WHERE embedding is not null
-            """)
-            
+            """
+            )
+
             connection.commit()
             log.info("Vector table setup completed successfully")
-            
+
         except sqlite3.OperationalError as e:
             log.error(f"Error during vector table setup: {e}")
-
 
 
 # Create a new session

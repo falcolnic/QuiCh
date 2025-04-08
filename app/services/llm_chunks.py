@@ -18,12 +18,14 @@ anthropic_api_key = os.getenv("ANTHROPIC_API_KEY")
 anthropic_client = anthropic.Anthropic(api_key=anthropic_api_key)
 anthropic_client = instructor.from_anthropic(anthropic_client)
 
+
 def is_json(docs):
     try:
         json.loads(docs)
         return True
     except JSONDecodeError:
         return False
+
 
 def fix_json_hook(response):
     if isinstance(response.content[0].input["docs"], str):

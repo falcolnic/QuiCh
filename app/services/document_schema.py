@@ -9,5 +9,6 @@ class DocumentSchema(BaseModel):
     start: int
     end: int
 
+
 class DocumentListSchema(BaseModel):
     docs: List[DocumentSchema]

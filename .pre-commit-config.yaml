@@ -4,7 +4,7 @@ repos:
     rev: v0.0.270
     hooks:
       - id: ruff
-        args: ["--ignore=E501,F405,F403"]
+        args: ["--ignore=E501,F405,F403,E402,E711"]
   - repo: https://github.com/pycqa/isort
     rev: 5.12.0
     hooks:

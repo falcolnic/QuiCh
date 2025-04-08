@@ -3,21 +3,16 @@ import os
 from typing import Annotated
 
 from fastapi import APIRouter, Depends
+from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
 from sqlalchemy.orm import Session
-from fastapi.security import OAuth2PasswordRequestForm, OAuth2PasswordBearer
 
 from app.api.deps import get_db
-from app.models.user import UserModel
-from app.schemas.user import UserCreateSchema, UserLoginSchema
-from app.services.security import get_password_hash, create_access_token
 from app.api.exceptions import credential_exception
-from app.schemas.token import Token
-import logging
-import os
-
 from app.jinja_setup import jinja
-from fastapi import Depends
-
+from app.models.user import UserModel
+from app.schemas.token import Token
+from app.schemas.user import UserCreateSchema, UserLoginSchema
+from app.services.security import create_access_token, get_password_hash
 
 router = APIRouter()
 
