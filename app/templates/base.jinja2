@@ -14,6 +14,7 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" rel="stylesheet">
     <style>
         body {
+            overflow-x: hidden;
             display: flex;
             flex-direction: column;
             min-height: 100vh;
@@ -118,6 +119,26 @@
                 font-size: 3rem;
             }
         }
+        @keyframes fadeInLeft {
+            0% {
+            opacity: 0;
+            transform: translateX(-20px);
+            }
+            100% {
+            opacity: 1;
+            transform: translateX(0);
+            }
+        }   
+        @-webkit-keyframes fadeInLeft {
+            0% {
+                opacity: 0;
+                transform: translateX(-20px);
+                }
+            100% {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        } 
     </style>
     {% block header %} {% endblock %}
 </head>
