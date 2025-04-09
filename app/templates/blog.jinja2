@@ -2,12 +2,27 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>QuiCh blog</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/js/all.min.js" crossorigin="anonymous"></script>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Fredoka" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/css/bootstrap.min.css" rel="stylesheet">
     <style>
+        ::-webkit-scrollbar {
+            width: 7px;
+        }
+        ::-webkit-scrollbar-track {
+            background-color: #ffffff;
+        }
+        ::-webkit-scrollbar-thumb {
+            border-radius: 0px;
+            background-color: #000000;
+        }
         body {
             font-family: 'Fredoka', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+        }
+        ::selection {
+            background-color: #2a2a2a;
+            color: #ffffff;
         }
         .navbar .nav-link:hover {
             color: #ff7800 !important;
@@ -18,6 +33,35 @@
         .navbar {
             padding: 0.75rem 1rem;
         }
+        @keyframes fadeInLeft {
+            0% {
+            opacity: 0;
+            transform: translateX(-20px);
+            }
+            100% {
+            opacity: 1;
+            transform: translateX(0);
+            }
+        }   
+        @-webkit-keyframes fadeInLeft {
+            0% {
+                opacity: 0;
+                transform: translateX(-20px);
+                }
+            100% {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        } 
+        @-webkit-keyframes fadeInUp {
+            from {
+                transform: translate3d(0,40px,0)
+            }
+            to {
+                transform: translate3d(0,0,0);
+                opacity: 1
+            }
+        }
     </style>
 {% endblock header%}
 {% block content%}
@@ -26,55 +70,111 @@
 </header>
 {% endblock content%}
 
-<div class="bg-white flex flex-col justify-center min-h-screen mx-[90px]">
+<div class="bg-white flex flex-col justify-center min-h-screen md:lg-[120px] mx-[120px]">
 
-    <div class="flex flex-wrap mx-[-12px]">
-        <div class="w-full px-8 mx-auto mb-8">
-            <div class="mb-2 flex items-center">
-                <div class="w-6 h-px bg-orange-500"></div>
-                <div class="pl-3 text-md text-orange-500 italic">
-                    <p>Blog</p>
+    <div class="flex mr-[24px] mt-[64px]">
+        <div class="w-full px-[10%] mx-auto mb-6">
+            <div class="wrapper fadeInLeft" style="animation: fadeInLeft 1s; ease-out;">
+                <div class="mb-2 flex items-center">
+                    <div class="w-6 h-px bg-orange-500"></div>
+                    <div class="pl-3 text-md text-orange-500 italic">
+                        <p>Blog</p>
+                    </div>
                 </div>
+                <h2 class="fadeInLeft text-black text-[64px] pr-3 font-semibold md:text-[55px] sm:text-[35px]">
+                    Security
+                </h2>        
             </div>
-            <h2 class="text-black text-[72px] md:text-[45px] sm:text-[35px] xsm:text-[35px mb-5]">
-                Security
-            </h2>        
-            <img src="../static/shape_172.svg" alt="shape" class="lazy-img absolute right-[17%] 2xl:right-[8%] lg:right-[6%] top-[12%] d-none d-lg-block">
+            <img src="../static/shape_172.svg" alt="shape" class="lazy-img absolute right-[17%] 2xl:right-[15%] lg:right-[16%] top-[15%] d-none d-lg-block">
         </div>
     </div>
 
-    <div class="mt-[40px] w-full">
+    <div class="mt-[40px] w-full mx-2">
         <div class="flex">
             <!-- Main content -->
-            <div class="flex-1">
-                <div class="bg-gray-100 border border-orange-500 rounded-lg p-6 mb-6">
-                    <h2 class="text-2xl font-semibold text-orange-500 mb-2">Securitty</h2>
-                    <p class="text-black">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus lacinia odio vitae vestibulum vestibulum.</p>
+            <div class="flex flex-wrap justify-center xl:w-8/12 max-w-full">
+
+                <div class="rounded-lg pb-5 mb-2 w-full px-8 max-w-[400px] fadeInUp" style="animation: fadeInUp 1s; ease-out;">
+                    <article class="blog-meta-three mb-[60px] sm:mb-4 wow">
+                        <figure class="img-container post-img !m-0 overflow-hidden rounded-[10px]">
+                            <a class="w-full block" href="/elon-data-leak">
+                                <img class="lazy-img w-full h-[190px] object-cover" src="../static/KXQ25MDTOKIK.jpg">
+                            </a>
+                        </figure>
+
+                        <div class="mt-[30px] lg:mt-[30px] md:mt-[30px] sm:mt-[30px] xsm:mt-[30px]">
+                            07 Apr 2025
+                        </div>
+                        <h2 class="text-2xl font-semibold mb-3 hover:text-[#007BFF]">
+                            <a href="/elon-data-leak" >Elon Musk X Data Leak</a>
+                        </h2>
+                        <a href="/" class="text-lg btn btn-outline-orange border-orange-500 text-orange-500 p-2 px-4 rounded-[23px] hover:text-white hover:bg-orange-500">Read more</a>
+                    </article>
                 </div>
-                <div class="bg-gray-100 border border-orange-500 rounded-lg p-6 mb-6">
-                    <h2 class="text-2xl font-semibold text-orange-500 mb-2">Post Title 2</h2>
-                    <p class="text-black">Curabitur ac leo nunc. Vestibulum et mauris vel ante finibus maximus nec ut leo.</p>
+
+                <div class="rounded-lg pb-5 mb-2 w-full px-8 max-w-[400px] fadeInUp" style="animation: fadeInUp 1s; ease-out;">
+                    <article class="blog-meta-three mb-[60px] sm:mb-4 wow">
+                        <figure class="img-container post-img !m-0 overflow-hidden rounded-[10px]">
+                            <a class="w-full block" href="/dns-risks">
+                                <img class="lazy-img w-full h-[190px] object-cover" src="../static/KXQ25MDTOKIK.jpg">
+                            </a>
+                        </figure>
+                        <div class="mt-[30px] lg:mt-[30px] md:mt-[30px] sm:mt-[30px] xsm:mt-[30px]">
+                            15 Mar 2025
+                        </div>
+                        <h2 class="text-2xl font-semibold mb-3 hover:text-[#007BFF]">
+                            <a href="/dns-risks">The Hidden Risks of DNS: Are You Truly Protected</a>
+                        </h2>
+                        <a href="/dns-risks" class="text-lg btn btn-outline-orange border-orange-500 text-orange-500 p-2 px-4 rounded-[23px] hover:text-white hover:bg-orange-500">Read more</a>
+                    </article>
                 </div>
-                <div class="bg-gray-100 border border-orange-500 rounded-lg p-6 mb-6">
-                    <h2 class="text-2xl font-semibold text-orange-500 mb-2">Post Title 3</h2>
-                    <p class="text-black">Praesent tincidunt sed tellus ut rutrum. Sed vitae justo condimentum, porta lectus vitae, ultricies congue gravida diam non fringilla.</p>
+
+                <div class="rounded-lg pb-5 mb-2 w-full px-8 max-w-[400px] fadeInUp" style="animation: fadeInUp 1s; ease-out;">
+                    <article class="blog-meta-three mb-[60px] sm:mb-4 wow">
+                        <figure class="img-container post-img !m-0 overflow-hidden rounded-[10px]">
+                            <a class="w-full block" href="/post-title-3">
+                                <img class="lazy-img w-full h-[190px] object-cover" src="../static/fPJORDa9kV0K.jpg">
+                            </a>
+                        </figure>
+                        <div class="mt-[30px] lg:mt-[30px] md:mt-[30px] sm:mt-[30px] xsm:mt-[30px]">
+                            04 Feb 2025
+                        </div>
+                        <h2 class="text-2xl font-semibold mb-3 hover:text-[#007BFF]">
+                            <a href="/post-title-3">DeepSeek breach</a>
+                        </h2>
+                        <a href="/post-title-3" class="text-lg btn btn-outline-orange border-orange-500 text-orange-500 p-2 px-4 rounded-[23px] hover:text-white hover:bg-orange-500">Read more</a>
+                    </article>
                 </div>
-                <div class="bg-gray-100 border border-orange-500 rounded-lg p-6 mb-6">
-                    <h2 class="text-2xl font-semibold text-orange-500 mb-2">Post Title 3</h2>
-                    <p class="text-black">Praesent tincidunt sed tellus ut rutrum. Sed vitae justo condimentum, porta lectus vitae, ultricies congue gravida diam non fringilla.</p>
+
+                <div class="rounded-lg pb-5 mb-2 w-full px-8 max-w-[400px] fadeInUp" style="animation: fadeInUp 1s; ease-out;">
+                    <article class="blog-meta-three mb-[60px] sm:mb-4 wow">
+                        <figure class="img-container post-img !m-0 overflow-hidden rounded-[10px]">
+                            <a class="w-full block" href="/security">
+                                <img class="lazy-img w-full h-[190px] object-cover" src="../static/KXQ25MDTOKIK.jpg">
+                            </a>
+                        </figure>
+                        <div class="mt-[30px] lg:mt-[30px] md:mt-[30px] sm:mt-[30px] xsm:mt-[30px]">
+                            05 Jan 2025
+                        </div>
+                        <h2 class="text-2xl font-semibold mb-3 hover:text-[#007BFF]">
+                            <a href="/security">Security</a>
+                        </h2>
+                        <a href="/security" class="text-lg btn btn-outline-orange border-orange-500 text-orange-500 p-2 px-4 rounded-[23px] hover:text-white hover:bg-orange-500">Read more</a>
+                    </article>
                 </div>
+
             </div>
 
             <!-- Sidebar -->
-            <div class="w-1/4 ml-6">
-                <div class="px-6">
-                    <h2 class="text-xl font-semibold mb-3">Category</h2>
+            <div class="w-1/4 ml-13">
+                <div class="sm:px-6">
+                    <h2 class="text-3xl font-semibold mb-3">Category</h2>
                     <ul class="list-none pl-0 mb-0 text-black">
                         <li>
-                            <a href="/" class="text-[16px] leading-10 block transition-all duration-[0.3s] ease-[ease-in-out] hover:text-orange-400">Success stories</a>
+                            <a href="/" class="text-[24px] leading-10 block transition-all duration-[0.3s] ease-[ease-in-out] hover:text-orange-400">Success stories</a>
                         </li>
                         <li>
-                            <a href="/" class="text-[16px] leading-10 block transition-all duration-[0.3s] ease-[ease-in-out] hover:text-orange-400">Security</a>
+                            <a href="/" class="text-[24px] leading-10 block transition-all duration-[0.3s] ease-[ease-in-out] hover:text-orange-400">Security</a>
                         </li>
                     </ul>
                 </div>
@@ -83,5 +183,26 @@
     </div>
 
 </div>
-<a href="/" class="mt-6 px-6 py-3 bg-orange-500 text-white font-medium rounded-full hover:bg-orange-600 transition hover:bg-orange-700">Go to homepage</a>
-</div>
+
+<footer class="py-4 mt-10">
+    <div class="container mx-auto flex justify-between items-center px-16">
+        <!-- Left side -->
+        <div class="text-md">
+            <a href="/privacy-policy" class="hover:text-orange-500 mr-4">Privacy Policy</a>
+            <a href="/tos" class="hover:text-orange-500">TOS</a>
+        </div>
+        <!-- Center -->
+        <div class="text-md text-gray-600">
+            Copyright &copy; 2025 QuiCh.
+        </div>
+        <!-- Right side -->
+        <div class="flex space-x-4">
+            <a href="https://facebook.com" target="_blank" class="hover:text-orange-500 transition-all duration-[0.3s] ease-[ease-in-out] ml-[80px]">
+                <i class="fab fa-facebook-f fa-lg"></i>
+            </a>
+            <a href="https://linkedin.com" target="_blank" class="hover:text-orange-500 transition-all duration-[0.3s] ease-[ease-in-out] ml-[40px]">
+                <i class="fab fa-linkedin fa-lg"></i>
+            </a>
+        </div>
+    </div>
+</footer>

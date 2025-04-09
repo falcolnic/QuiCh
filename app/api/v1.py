@@ -1,4 +1,5 @@
-from fastapi import APIRouter, Depends
+import requests
+from fastapi import APIRouter, Depends, Request
 from starlette.responses import JSONResponse
 
 from app.api import transcript
