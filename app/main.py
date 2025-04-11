@@ -15,7 +15,7 @@ from app.api.v1 import api_router
 from app.database import init_db
 from app.jinja_setup import jinja, templates
 from app.models.search import SearchModel
-from app.models.texts import IdeaModel, YoutubeModel
+from app.models.texts import IdeaModel
 from app.services.answer import answer_question
 from app.services.embeddings import embed
 
@@ -45,42 +45,14 @@ app = FastAPI(
     docs_url="/api/docs",
     lifespan=lifespan,
 )
-
 app.include_router(api_router)
 app.mount("/static", StaticFiles(directory="app/static"), name="static")
 
 
-@app.get("/")
-@jinja.page("index.jinja2")
-def index() -> None:
-    """This route serves the index.jinja2 template."""
-    ...
-
-
-@app.get("/blog")
-@jinja.page("blog.jinja2")
-def blog() -> None:
-    """This route serves the blog.jinja2 template."""
-    ...
-
-
-@app.get("/LICENSE")
-@jinja.page("LICENSE.jinja2")
-def license() -> dict:
-    license_text = """The MIT License (MIT) Copyright © 2025 
-Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the “Software”), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
-The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-THE SOFTWARE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-"""
-    return {"license": license_text}
-
-
-@app.get("/version")
-def version(db=Depends(get_db)) -> dict:
-    return {
-        "vss version": db.scalars(text("select vec_version();")),
-        "sqlite version": db.scalars(text("select sqlite_version();")),
-    }
+@app.exception_handler(404)
+def custom_404_handler(request: Request, exc: Exception) -> HTMLResponse:
+    """This route serves the 404.jinja2 template."""
+    return templates.TemplateResponse("404.jinja2", {"request": request})
 
 
 @app.get("/search")
@@ -146,15 +118,3 @@ async def search(
             for doc, rank in res
         ],
     }
-
-
-@app.get("/video")
-@jinja.page("search_items.jinja2")
-def video(video_id: str, db=Depends(get_db)):
-    db.sclar(select(YoutubeModel).filter_by(video_id=video_id))
-
-
-@app.exception_handler(404)
-async def custom_404_handler(request: Request, exc: Exception) -> HTMLResponse:
-    """This route serves the 404.jinja2 template."""
-    return templates.TemplateResponse("404.jinja2", {"request": request})

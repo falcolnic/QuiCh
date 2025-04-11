@@ -1,0 +1,17 @@
+body {
+    cursor: url('../default-cursor.png'), auto !important;
+}
+
+a {
+    cursor: url('../link-cursor.png'), pointer !important;
+}
+
+h1,h2,h3,h4,h5,h6,p,input,span {
+    cursor: url('../select-cursor.png'), text !important;
+}
+
+.cursor {
+    cursor: url('../select-cursor.png'), text !important;
+}
+
+

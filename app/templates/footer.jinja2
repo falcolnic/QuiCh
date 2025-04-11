@@ -1,16 +1,16 @@
 <footer class="text-white py-2">
     <div class="d-flex justify-content-between align-items-center px-3">
-        <div style="animation: fadeInLeft 1s; ease-out;">
-            <span class="small">&copy; 2025 QuiCh. All rights reserved.</span>
+        <div class="cursor text-md space-y-1" style="animation: fadeInLeft 1s; ease-out;">
+            <span class="font-semibold">&copy; 2025 QuiCh. All rights reserved.</span>
             <br>
-            <a href="/LICENSE" class="text-white small underline">View License</a>
+            <a href="/LICENSE" class="transition-all duration-300 ease-out underline hover:text-orange-500">View License</a>
         </div>
-        <div class="d-flex align-items-center">
-            <i class="fas fa-map-marker-alt mr-5 small"></i>
+        <div class="d-flex align-items-center space-x-4">
+            <i class="fas fa-map-marker-alt text-md"></i>
             <div style="animation: fadeInLeft 1s; ease-out;">
-                <span id="user-location" class="small">Loading location...</span>
+                <span id="user-location cursor" class="text-lg font-semibold">Loading location...</span>
                 <br>
-                <small class="text-white">From your IP • <a href="#" id="update-location" class="text-white underline">Update</a></small>
+                <small class="text-white text-md cursor">From your IP • <a href="#" id="update-location" class="text-lg underline hover:text-orange-500 transition-all duration-300 ease-out">Update</a></small>
             </div>
         </div>
     </div>
@@ -41,7 +41,6 @@
             const { latitude, longitude } = position.coords;
             const res = await fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${latitude}&lon=${longitude}`);
             const locationData = await res.json();
-            console.log(locationData);
             const address = locationData.address;
             const displayName = [
                 address?.borough,
