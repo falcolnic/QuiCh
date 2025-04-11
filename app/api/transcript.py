@@ -9,7 +9,7 @@ from app.models.search import SearchModel
 from app.schemas.search import SearchLogSchema
 from app.schemas.transcript import TranscriptSchema, Youtube
 from app.services.ideas_extractor import load_ideas
-from app.services.transcript import (
+from app.services.transcript_data import (
     calculate_idea_embedding,
     load_all,
     load_transcript,
@@ -35,8 +35,13 @@ def save_transcript(
 
 
 @router.post("/process")
-def process_videos(videos: List[str], background_tasks: BackgroundTasks):
-    background_tasks.add_task(load_all, videos)
+def process_videos(videos: List[str], background_tasks: BackgroundTasks) -> dict:
+    def alert_callback():
+        log.info("Processing completed for all video IDs.")
+        # TODO: send alert to tg/email
+
+    background_tasks.add_task(load_all, videos, alert_callback)
+    return {"message": "Processing started for provided video IDs."}
 
 
 @router.post("/wisdom")
