@@ -25,7 +25,7 @@ async def blog() -> None:
 @router.get("/video")
 @jinja.page("search_items.jinja2")
 async def video(video_id: str, db=Depends(get_db)):
-    db.sclar(select(YoutubeModel).filter_by(video_id=video_id))
+    db.scalar(select(YoutubeModel).filter_by(video_id=video_id))
 
 
 @router.get("/LICENSE")
