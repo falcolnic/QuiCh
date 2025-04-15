@@ -106,17 +106,31 @@ def compile_documents(chunk, res, usage, video_id):
     docs = []
     for d in res.docs:
         try:
-            assert d.start < d.end, "Assert end is bigger than"
+            if d.start >= d.end:
+                raise ValueError(
+                    f"Invalid timestamps: start ({d.start}) is not less than end ({d.end})"
+                )
+
             d.start = find_time_point(d.start, text_json)
             d.end = find_time_point(d.end, text_json)
-        except AssertionError as ex:
+
+        except ValueError as ex:
             log.error(
-                "Cannot find timestamp star:`%s` end:`%s` in the json: %s",
+                "Invalid timestamps for document: start=`%s`, end=`%s`. Error: %s",
                 d.start,
                 d.end,
-                text_json,
+                ex,
             )
-            raise ex
+            continue
+
+        except AssertionError as ex:
+            log.error(
+                "Assertion failed for document: start=`%s`, end=`%s`. Error: %s",
+                d.start,
+                d.end,
+                ex,
+            )
+            continue
 
         chunks = [
             chunk for start, chunk in text_json.items() if d.start <= start < d.end
@@ -176,7 +190,6 @@ def calculate_idea_embedding(client):
                 .limit(batch_size)
             ).all()
 
-            # Break if no documents are left
             if not docs:
                 break
             log.info("Process %s docs", len(docs))
@@ -192,7 +205,7 @@ def calculate_idea_embedding(client):
             offset += batch_size
 
 
-def load_all(videos):
+def load_all(videos, callback=None):
     for idx, v in enumerate(videos):
         log.info("[%s/%s] Process: %s", idx, len(videos), v)
         with db_session() as db:
@@ -228,3 +241,6 @@ def load_all(videos):
                     e,
                 )
             db.commit()
+
+    if callback:
+        callback()

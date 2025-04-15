@@ -6,6 +6,7 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Fredoka" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/static/styles/cursor.css" rel="stylesheet">
     <style>
         ::-webkit-scrollbar {
             width: 7px;
@@ -65,7 +66,7 @@
     </style>
 {% endblock header%}
 {% block content%}
-<header class="flex w-full bg-white transition-all duration-300 ease-out">
+<header class="flex w-full bg-white">
     {% include 'navbar.jinja2' %}
 </header>
 {% endblock content%}
@@ -187,12 +188,12 @@
 <footer class="py-4 mt-10">
     <div class="container mx-auto flex justify-between items-center px-16">
         <!-- Left side -->
-        <div class="text-md">
+        <div class="text-lg">
             <a href="/privacy-policy" class="hover:text-orange-500 mr-4">Privacy Policy</a>
             <a href="/tos" class="hover:text-orange-500">TOS</a>
         </div>
         <!-- Center -->
-        <div class="text-md text-gray-600">
+        <div class="cursor text-md text-gray-600">
             Copyright &copy; 2025 QuiCh.
         </div>
         <!-- Right side -->
