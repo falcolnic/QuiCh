@@ -14,3 +14,8 @@ class TokenPayloadSchema(BaseModel):
     sub: Optional[str] = None
     type: Optional[str] = None
     iat: Optional[datetime] = None
+
+
+class TokenSchema(BaseModel):
+    access_token: str
+    token_type: str = "bearer"

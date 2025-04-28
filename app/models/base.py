@@ -10,3 +10,4 @@ from app.models.texts import (  # noqa
     TranscriptionModel,
     YoutubeModel,
 )
+from app.models.user import UserModel  # noqa

@@ -28,7 +28,7 @@ def answer_question(term, res):
 - Ignore any irrelevant documents.
 - If the context is entirely unrelated to the question, respond with:
 ```txt
-I can’t answer your question
+I can’t answer your question, it’s not related to the topic.
 ```
 
 Ensure your response is clear, concise, and aligned with the relevant context.

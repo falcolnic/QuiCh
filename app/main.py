@@ -14,6 +14,7 @@ from app.api.deps import get_db, voyageai_client
 from app.api.v1 import api_router
 from app.database import init_db
 from app.jinja_setup import jinja, templates
+from app.middleware.request_logger import RequestLoggerMiddleware
 from app.models.search import SearchModel
 from app.models.texts import IdeaModel
 from app.services.answer import answer_question
@@ -48,11 +49,7 @@ app = FastAPI(
 app.include_router(api_router)
 app.mount("/static", StaticFiles(directory="app/static"), name="static")
 
-
-@app.exception_handler(404)
-def custom_404_handler(request: Request, exc: Exception) -> HTMLResponse:
-    """This route serves the 404.jinja2 template."""
-    return templates.TemplateResponse("404.jinja2", {"request": request})
+app.add_middleware(RequestLoggerMiddleware)
 
 
 @app.get("/search")
@@ -92,7 +89,7 @@ async def search(
 
     videos_count = len(set(i.video_id for i, _ in res))
 
-    # TODO Use some limit
+    # TODO Use some limit for non-registered user, if it registered he can make more requests
     total_results = TOP_N
     total_pages = (total_results + page_size - 1) // page_size
 
@@ -118,3 +115,9 @@ async def search(
             for doc, rank in res
         ],
     }
+
+
+@app.exception_handler(404)
+def custom_404_handler(request: Request, exc: Exception) -> HTMLResponse:
+    """This route serves the 404.jinja2 template."""
+    return templates.TemplateResponse("404.jinja2", {"request": request})
