@@ -3,19 +3,9 @@ class CookieNotFoundException(Exception):
         super().__init__("Cookie not found in the request.")
 
 
-class InvalidPasswordException(Exception):
-    def __init__(self):
-        super().__init__("Invalid password.")
-
-
-class InvalidUsernameException(Exception):
-    def __init__(self):
-        super().__init__("Invalid username.")
-
-
 class InvalidCredentialsException(Exception):
-    def __init__(self):
-        super().__init__("Invalid credentials.")
+    def __init__(self, message="Invalid credentials."):
+        super().__init__(message)
 
 
 class DuplicateUsernameException(Exception):

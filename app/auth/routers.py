@@ -1,13 +1,13 @@
 import logging
 from typing import Optional
 
-from click import Option
-from fastapi import APIRouter, Cookie, Depends, HTTPException, Request, Response, status
+from fastapi import APIRouter, Cookie, Depends, HTTPException, Response
 from fastapi.security import OAuth2PasswordBearer
 from sqlalchemy.orm import Session
 
 from app.api.deps import get_db
 from app.auth.exceptions import (
+    CookieNotFoundException,
     DuplicateEmailException,
     DuplicateUsernameException,
     InvalidCredentialsException,
@@ -53,7 +53,9 @@ async def login(
     try:
         return login_user_service(db, form_data, response)
     except InvalidCredentialsException as e:
-        raise HTTPException(status_code=401, detail=str(e))
+        raise HTTPException(
+            status_code=401, detail=str(e), headers={"WWW-Authenticate": "Bearer"}
+        )
     except Exception as e:
         log.error(f"Unexpected error during login: {e}")
         raise HTTPException(
@@ -73,5 +75,9 @@ async def get_profile(
 ):
     try:
         return get_profile_service(db, access_token)
-    except (TokenValidationException, UserNotFoundException) as e:
+    except (
+        TokenValidationException,
+        UserNotFoundException,
+        CookieNotFoundException,
+    ) as e:
         raise HTTPException(status_code=401, detail=str(e))

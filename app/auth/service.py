@@ -14,19 +14,17 @@ from sqlalchemy.orm import Session
 from app.auth.exceptions import (
     DuplicateEmailException,
     DuplicateUsernameException,
-    InvalidCredentialsException,
-    TokenValidationException,
     UserNotFoundException,
+)
+from app.auth.tokens import (
+    authenticate_user,
+    create_access_token,
+    hash_password,
+    verify_access_token,
 )
 from app.models.user import UserModel
 from app.schemas.token import TokenSchema
 from app.schemas.user import UserLoginSchema, UserRegisterSchema, UserResponseSchema
-
-JWT_SECRET_KEY = os.getenv("SECRET_KEY", "mysecretkey")
-JWT_ALGORITHM = "HS256"
-ACCESS_TOKEN_EXPIRE_MINUTES = 30
-
-pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
 log = logging.getLogger(__name__)
 
@@ -41,7 +39,7 @@ def create_user(db: Session, user: UserRegisterSchema) -> UserResponseSchema:
         if db.scalar(query):
             raise DuplicateEmailException
 
-        hashed_password = pwd_context.hash(user.password)
+        hashed_password = hash_password(user.password)
 
         db_user = UserModel(
             uuid=uuid.uuid4(),
@@ -72,71 +70,20 @@ def create_user(db: Session, user: UserRegisterSchema) -> UserResponseSchema:
         )
 
 
-def authenticate_user(db: Session, email: str, password: str) -> UserModel:
-    query = select(UserModel).where(UserModel.email == email)
-    user = db.scalar(query)
-    if not user or not pwd_context.verify(password, user.hashed_password):
-        raise InvalidCredentialsException
-    return user
-
-
-def get_user_profile(db: Session, token: str) -> UserResponseSchema:
-    try:
-        payload = jwt.decode(token, JWT_SECRET_KEY, algorithms=[JWT_ALGORITHM])
-        username: str = payload.get("sub")
-        if username is None:
-            raise TokenValidationException
-    except jwt.JWTError:
-        raise TokenValidationException
-
-    query = select(UserModel).where(UserModel.username == username)
-    user = db.scalar(query)
-    if user is None:
-        raise UserNotFoundException
-
-    return UserResponseSchema.model_validate(user)
-
-
-def create_access_token(data: dict, expires_delta: Optional[timedelta] = None) -> str:
-    to_encode = data.copy()
-    expire = datetime.utcnow() + (
-        expires_delta or timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES)
-    )
-    to_encode.update({"exp": expire})
-    return jwt.encode(to_encode, JWT_SECRET_KEY, algorithm=JWT_ALGORITHM)
-
-
-def verify_access_token(token: str) -> dict:
-    try:
-        return jwt.decode(token, JWT_SECRET_KEY, algorithms=[JWT_ALGORITHM])
-    except jwt.ExpiredSignatureError:
-        raise HTTPException(status_code=401, detail="Token has expired")
-    except jwt.InvalidTokenError:
-        raise TokenValidationException
-
-
 def login_user_service(
     db: Session, form_data: UserLoginSchema, response: Response
 ) -> TokenSchema:
-    try:
-        user = authenticate_user(db, form_data.email, form_data.password)
-        access_token = create_access_token(
-            data={"uuid": str(user.uuid), "sub": user.username}
-        )
-        response.set_cookie(
-            key="access_token",
-            value=access_token,
-            httponly=True,
-            secure=True,
-            max_age=3600,  # 1 hour
-        )
-        return TokenSchema(access_token=access_token)
-    except InvalidCredentialsException as e:
-        raise HTTPException(
-            status_code=status.HTTP_401_UNAUTHORIZED,
-            detail=str(e),
-            headers={"WWW-Authenticate": "Bearer"},
-        )
+    user = authenticate_user(db, form_data.email, form_data.password)
+    access_token = create_access_token(
+        data={"uuid": str(user.uuid), "sub": user.username}
+    )
+    response.set_cookie(
+        key="access_token",
+        value=access_token,
+        httponly=True,
+        max_age=3600,  # 1 hour
+    )
+    return TokenSchema(access_token=access_token)
 
 
 def logout_user_service(response: Response):
