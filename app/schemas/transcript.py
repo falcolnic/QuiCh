@@ -12,3 +12,5 @@ class TranscriptSchema(BaseModel):
     id: UUID
     transcript: List[Dict]
     video_id: str
+    status: str = None
+    error: str = None

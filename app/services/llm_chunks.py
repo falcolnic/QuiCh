@@ -62,8 +62,6 @@ def split_document(llm_chunks, document):
     docs = re.split(regex_patter, document)
 
     if len(docs) != len(llm_chunks):
-        # log.error(f"Given LLM chunks: {llm_chunks}")
-        # log.error(f"Given doc: {document['content']}")
         log.error(
             f"Invalid number of chunks. Expected {len(llm_chunks)} but got {len(docs)}"
         )

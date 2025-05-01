@@ -63,6 +63,17 @@ def split_transcript(transcript_id: uuid.UUID, from_start=0):
 
             log.info("[%s] Create %s docs", transcript.video_id, len(docs))
 
+            if not docs:
+                log.warning(
+                    "[%s] No documents created for chunk %s, skipping.",
+                    transcript.video_id,
+                    idx,
+                )
+                chunk, is_last = transcript_first_n_seconds(
+                    transcript.transcript, from_start
+                )
+                continue
+
             if len(docs) > 2:
                 result += docs[:-1]
                 from_start = docs[-1].start
@@ -201,7 +212,6 @@ def calculate_idea_embedding(client):
                 d.embedding = embedding_encode(e)
             db.commit()
 
-            # Move to the next batch
             offset += batch_size
 
 

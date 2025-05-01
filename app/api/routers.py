@@ -45,9 +45,3 @@ async def version(db=Depends(get_db)) -> dict:
         "vss version": db.scalars(text("select vec_version();")),
         "sqlite version": db.scalars(text("select sqlite_version();")),
     }
-
-
-@router.get("/video")
-@jinja.page("search_items.jinja2")
-def video(video_id: str, db=Depends(get_db)):
-    db.sclar(select(YoutubeModel).filter_by(video_id=video_id))

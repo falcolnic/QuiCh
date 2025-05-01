@@ -2,10 +2,9 @@ import asyncio
 
 import jwt
 import voyageai
-from fastapi import Depends
+from fastapi import Depends, HTTPException, status
 from fastapi.security import OAuth2PasswordBearer
 
-from app.api.exceptions import credential_exception
 from app.config import app_config
 from app.database import SessionLocal
 from app.schemas.token import TokenPayloadSchema
@@ -46,6 +45,10 @@ def get_current_user(token: str = Depends(oauth2_scheme)):
         )
         token_data = TokenPayloadSchema(**payload)
     except Exception:
-        raise credential_exception
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Could not validate credentials",
+            headers={"WWW-Authenticate": "Bearer"},
+        )
 
-    return {"login": token_data.sub}
+    return {"login": token_data.sub, "uuid": token_data.uuid}

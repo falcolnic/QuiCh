@@ -8,13 +8,14 @@ package-mode = false
 
 [tool.poetry.dependencies]
 python = "^3.11"
-uvicorn = "^0.32.0"
+fastapi = "0.115.2"
+pydantic =  {extras = ["email"], version = "2.9.2"}
+
 sqlalchemy = "2.0.35"
+uvicorn = "^0.32.0"
 voyageai = "0.2.3"
 anthropic = "^0.45.2"
 instructor = "1.6.3"
-pydantic = "2.9.2"
-fastapi = "0.115.2"
 fasthx = "2.0.1"
 pydantic-settings = "^2.7.1"
 pyjwt = "^2.10.1"
@@ -23,6 +24,7 @@ sqlite-vec = "^0.1.6"
 youtube-transcript-api = "0.6.2"
 pytubefix = "^8.12.1"
 passlib = {extras = ["bcrypt"], version = "^1.7.4"}
+psycopg2-binary = "2.9.9"
 
 [tool.poetry.group.dev.dependencies]
 black = "24.4.2"
