@@ -35,23 +35,28 @@ QuiCh/
 │   ├── alembic/                # Database migrations
 │   ├── api/                    # API routes and dependencies
 │   ├── auth/                   # Authentication logic
+│   ├── middleware/             # Request/response middleware handlers
 │   ├── models/                 # Database models
 │   ├── schemas/                # Pydantic schemas for validation
 │   ├── scripts/                # Utility scripts for data processing
 │   ├── services/               # Core business logic and AI integrations
 │   ├── static/                 # Static files (CSS, JS, images)
 │   ├── templates/              # Jinja2 templates for the UI
+│   ├── alembic.ini             # Alembic configuration settings
 │   ├── config.py               # Application configuration
 │   ├── database.py             # Database setup and session management
-│   ├── main.py                 # FastAPI application entry point
-│   └── jinja_setup.py          # Jinja2 setup for FastAPI
+│   ├── jinja_setup.py          # Jinja2 setup for FastAPI
+│   └── main.py                 # FastAPI application entry point
+├── data/
+│   └── franken.db/             # My database
+├── .env                        # Environment variables configuration
+├── docker-compose.yaml         # Docker Compose service definitions
 ├── Dockerfile                  # Docker configuration
-├── pyproject.toml              # Poetry dependencies
 ├── fly.toml                    # Fly.io deployment configuration
+├── pyproject.toml              # Poetry dependencies
 ├── README.md                   # Project documentation
 └── .github/workflows/fly.yml   # GitHub Actions for CI/CD
 ```
-
 ---
 
 ## Installation

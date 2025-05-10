@@ -55,7 +55,7 @@
             ].filter(Boolean).join(', ');
             document.getElementById('user-location cursor').textContent = displayName;
         } catch (error) {
-            alert('Unable to retrieve your location.');
+            alert('Unable to retrieve your direct location. Please check your browser settings.');
             console.error('Geolocation error:', error);
         }
     }

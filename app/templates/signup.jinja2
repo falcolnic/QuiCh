@@ -48,7 +48,34 @@
         transform: scale(0.95);
         transition: transform 0.1s ease-in-out;
     }
+    .home-arrow {
+        position: fixed;
+        top: 20px;
+        left: 20px;
+        color: #ff9c1b;
+        font-size: 2rem;
+        z-index: 100;
+        transition: transform 0.3s ease;
+        display: flex;
+        align-items: center;
+        text-decoration: none;
+    }
+    .home-arrow:hover {
+        transform: translateX(-5px);
+    }
+    .home-arrow svg {
+        width: 40px;
+        height: 40px;
+    }
 </style>
+
+<!-- Back to home arrow -->
+<a href="/" class="home-arrow" title="Back to Home">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+        <path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/>
+    </svg>
+</a>
+
 <div class="min-h-screen bg-gray-100 flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
     <div class="max-w-md w-full space-y-8 bg-white p-8 rounded-xl shadow-lg transform transition-all hover:shadow-xl">
         <div>
@@ -109,6 +136,8 @@
             </div>
         </form>
     </div>
+    <img src="../static/abstract-icon-391788-512.svg" alt="shape" class="lazy-img absolute left-[13%] 2xl:left-[13%] lg:left-[16%] top-[20%] d-none d-lg-block w-[150px]" loading="lazy">
+    <img src="../static/shape_172.svg" alt="shape" class="lazy-img absolute right-[17%] 2xl:right-[15%] lg:right-[16%] top-[52%] d-none d-lg-block rotate-45" loading="lazy">
 </div>
 
 <script>
