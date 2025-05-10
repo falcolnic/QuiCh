@@ -1,29 +1,221 @@
 {% extends 'base.jinja2' %}
 {% block content %}
-<div class="container mt-5">
-    <div class="row justify-content-center">
-        <div class="col-md-6">
-            <div class="card">
-                <div class="card-body">
-                    <h2 class="card-title text-center mb-4">Sign Up</h2>
-                    <form method="POST" action="/signup">
-                        <div class="mb-3">
-                            <label for="username" class="form-label">Username</label>
-                            <input type="text" class="form-control" id="username" name="username" required>
-                        </div>
-                        <div class="mb-3">
-                            <label for="email" class="form-label">Email</label>
-                            <input type="email" class="form-control" id="email" name="email" required>
-                        </div>
-                        <div class="mb-3">
-                            <label for="password" class="form-label">Password</label>
-                            <input type="password" class="form-control" id="password" name="password" required>
-                        </div>
-                        <button type="submit" class="btn btn-dark w-100">Sign Up</button>
-                    </form>
+<style>
+    body {
+        overflow: hidden;
+        margin: 0;
+        height: 100vh;
+    }
+    .btn-orange {
+        border: 2px solid transparent;
+        border-radius: 30px;
+        color: #0f0009;
+        display: inline-block;
+        font-size: 1.4rem;
+        font-weight: 400;
+        line-height: 2.2rem;
+        overflow: hidden;
+        padding: 8px 20px;
+        position: relative;
+        text-align: center;
+        text-decoration: none !important;
+        transition: all .4s ease-in-out;
+        z-index: 1;
+        background: #ff9c1b;
+    }
+    .btn-orange:before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: #fff;
+        z-index: -1;
+        transition: transform .3s ease-in-out;
+        transform: scaleX(0);
+        transform-origin: right;
+    }
+    .btn-orange:hover:before {
+        transform: scaleX(1);
+        transform-origin: left;
+    }
+    .btn-orange:hover {
+        color: #0f0009;
+        border-color: #000;
+    }
+    .btn-orange:active {
+        transform: scale(0.95);
+        transition: transform 0.1s ease-in-out;
+    }
+</style>
+<div class="min-h-screen bg-gray-100 flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
+    <div class="max-w-md w-full space-y-8 bg-white p-8 rounded-xl shadow-lg transform transition-all hover:shadow-xl">
+        <div>
+            <h2 class="text-center text-3xl font-extrabold text-gray-900">Create Your Account</h2>
+            <p class="mt-2 text-center text-sm text-gray-600">
+                Already have an account? 
+                <a href="/v1/signin" class="font-medium text-orange-500 hover:text-orange-400">Sign in</a>
+            </p>
+        </div>
+        <form id="signupForm" method="POST" action="/v1/signup" class="space-y-6">
+            <div id="errorMessage" class="hidden bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">
+                <span class="block sm:inline"></span>
+            </div>
+            <div>
+                <label for="username" class="block text-sm font-medium text-gray-700">Username</label>
+                <div class="mt-1 relative">
+                    <input type="text" id="username" name="username" required
+                        pattern="^[a-zA-Z0-9_-]+$"
+                        class="appearance-none block w-full text-black px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-orange-500 focus:border-orange-500 sm:text-sm"
+                        placeholder="Choose a username (no spaces)">
                 </div>
             </div>
-        </div>
+            <div>
+                <label for="email" class="block text-sm font-medium text-gray-700">Email address</label>
+                <div class="mt-1 relative">
+                    <input type="email" id="email" name="email" required
+                        class="appearance-none block w-full text-black px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-orange-500 focus:border-orange-500 sm:text-sm"
+                        placeholder="Enter your email">
+                </div>
+            </div>
+            <div>
+                <label for="password" class="block text-sm font-medium text-gray-700">Password</label>
+                <div class="mt-1 relative">
+                    <input type="password" id="password" name="password" required
+                        class="appearance-none block w-full text-black px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-orange-500 focus:border-orange-500 sm:text-sm"
+                        placeholder="Create a password (no spaces)">
+                    <button type="button" id="togglePassword" class="absolute inset-y-0 right-0 pr-3 flex items-center text-sm leading-5">
+                        <svg class="h-5 w-5 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                        </svg>
+                    </button>
+                </div>
+            </div>
+            <!-- Hidden fields for location data -->
+            <input type="hidden" id="userIp" name="ip_address" value="">
+            <input type="hidden" id="userLocation" name="location" value="">
+            <div>
+                <button type="submit" id="submitButton"
+                        class="btn-orange group relative w-full flex justify-center"
+                        style="animation: fadeInUp 1s; ease-out;">
+                    <span id="buttonText">Sign Up</span>
+                    <svg id="loadingSpinner" class="hidden animate-spin h-5 w-5 text-black ml-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                    </svg>
+                </button>
+            </div>
+        </form>
     </div>
 </div>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    const form = document.getElementById('signupForm');
+    const submitButton = document.getElementById('submitButton');
+    const buttonText = document.getElementById('buttonText');
+    const loadingSpinner = document.getElementById('loadingSpinner');
+    const errorMessage = document.getElementById('errorMessage');
+    const togglePassword = document.getElementById('togglePassword');
+    const passwordInput = document.getElementById('password');
+    const ipField = document.getElementById('userIp');
+    const locationField = document.getElementById('userLocation');
+    const usernameInput = document.getElementById('username');
+
+    async function getUserLocation() {
+        try {
+            const res = await fetch('/v1/proxy/location');
+            if (!res.ok) {
+                throw new Error(`Error fetching location: ${res.status}`);
+            }
+            const data = await res.json();
+            ipField.value = data.ip || '';
+            const locationParts = [data.city, data.region, data.country_name]
+                .filter(Boolean)
+                .filter((v, i, a) => a.indexOf(v) === i); // Remove duplicates
+            locationField.value = locationParts.join(', ');
+        } catch (err) {
+            console.error('Error getting location data:', err);
+            // Still allow form submission even if we can't get location
+            ipField.value = '';
+            locationField.value = '';
+        }
+    }
+    getUserLocation();
+    
+    usernameInput.addEventListener('input', function(e) {
+        const value = e.target.value;
+        if (value.includes(' ')) {
+            e.target.value = value.replace(/\s/g, '');
+        }
+
+        const isValid = /^[a-zA-Z0-9_-]*$/.test(e.target.value);
+        if (!isValid) {
+            e.target.setCustomValidity('Username can only contain letters, numbers, underscores, and hyphens');
+        } else {
+            e.target.setCustomValidity('');
+        }
+    });
+
+    passwordInput.addEventListener('input', function(e) {
+        if (e.target.value.includes(' ')) {
+            e.target.value = e.target.value.replace(/\s/g, '');
+        }
+    });
+
+    togglePassword.addEventListener('click', () => {
+        const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+        passwordInput.setAttribute('type', type);
+        togglePassword.querySelector('svg').classList.toggle('text-gray-500');
+        togglePassword.querySelector('svg').classList.toggle('text-orange-500');
+    });
+
+    form.addEventListener('submit', async (e) => {
+        const username = usernameInput.value;
+        const password = passwordInput.value;
+        if (!username.match(/^[a-zA-Z0-9_-]+$/)) {
+            e.preventDefault();
+            errorMessage.classList.remove('hidden');
+            errorMessage.querySelector('span').textContent = 'Username can only contain letters, numbers, underscores, and hyphens';
+            return;
+        }
+        if (password.includes(' ')) {
+            e.preventDefault();
+            errorMessage.classList.remove('hidden');
+            errorMessage.querySelector('span').textContent = 'Password cannot contain spaces';
+            return;
+        }
+        e.preventDefault();
+        submitButton.disabled = true;
+        buttonText.classList.add('hidden');
+        loadingSpinner.classList.remove('hidden');
+        errorMessage.classList.add('hidden');
+
+        try {
+            const formData = new FormData(form);
+            const response = await fetch('/v1/signup', {
+                method: 'POST',
+                body: formData
+            });
+
+            if (response.ok) {
+                window.location.href = '/';
+            } else {
+                const error = await response.json();
+                errorMessage.classList.remove('hidden');
+                errorMessage.querySelector('span').textContent = error.detail || 'An error occurred during signup';
+            }
+        } catch (error) {
+            errorMessage.classList.remove('hidden');
+            errorMessage.querySelector('span').textContent = 'Network error, please try again';
+        } finally {
+            submitButton.disabled = false;
+            buttonText.classList.remove('hidden');
+            loadingSpinner.classList.add('hidden');
+        }
+    });
+});
+</script>
 {% endblock %}

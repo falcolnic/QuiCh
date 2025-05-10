@@ -11,7 +11,7 @@ primary_region = "fra"
 auto_start_machines = true
 auto_stop_machines = true
 force_https = true
-internal_port = 8_888
+internal_port = 8888
 min_machines_running = 0
 processes = [ "app" ]
 
@@ -19,3 +19,7 @@ processes = [ "app" ]
 cpu_kind = "shared"
 cpus = 1
 memory = "512mb"
+
+[mounts]
+source = "quich_data"
+destination = "/data"

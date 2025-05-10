@@ -19,22 +19,29 @@
 <script>
     async function getLocationFromIP() {
         try {
-            const res = await fetch('https://ipapi.co/json/');
+            // Fix: Use the correct endpoint URL
+            const res = await fetch('/v1/proxy/location');
+            if (!res.ok) {
+                throw new Error(`Server responded with status: ${res.status}`);
+            }
+            
             const data = await res.json();
 
             const parts = [data.city, data.region, data.country_name];
-            const uniqueParts = [...new Set(parts.filter(Boolean))]; // Remove duplicates/nulls
-            document.getElementById('user-location').textContent = uniqueParts.join(', ');
+            const uniqueParts = [...new Set(parts.filter(Boolean))]; 
+            document.getElementById('user-location cursor').textContent = uniqueParts.join(', ') || 'Location unavailable';
         } catch (err) {
-            document.getElementById('user-location').textContent = 'Location unavailable';
+            document.getElementById('user-location cursor').textContent = 'Location unavailable';
             console.error('IP location error:', err);
         }
     }
+    
     function getCurrentPositionAsync() {
         return new Promise((resolve, reject) => {
             navigator.geolocation.getCurrentPosition(resolve, reject);
         });
     }
+
     async function updateWithPreciseLocation() {
         try {
             const position = await getCurrentPositionAsync();
@@ -46,12 +53,13 @@
                 address?.borough,
                 address?.city,
             ].filter(Boolean).join(', ');
-            document.getElementById('user-location').textContent = displayName;
+            document.getElementById('user-location cursor').textContent = displayName;
         } catch (error) {
             alert('Unable to retrieve your location.');
             console.error('Geolocation error:', error);
         }
     }
+
     window.addEventListener('DOMContentLoaded', () => {
         getLocationFromIP();
         const updateLink = document.getElementById('update-location');

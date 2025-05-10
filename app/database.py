@@ -1,4 +1,3 @@
-# models.py
 import logging
 import sqlite3
 from pathlib import Path
@@ -7,8 +6,6 @@ import sqlite_vec
 from sqlalchemy import create_engine, event
 from sqlalchemy.orm import sessionmaker
 
-# Base class for our models
-
 log = logging.getLogger(__name__)
 
 
@@ -16,11 +13,10 @@ def setup_database():
     """
     Set up the SQLite database and create all tables based on models.
     """
-    db_path = Path(__file__).parent / "franken.db"
+    db_path = Path("/data") / "franken.db"
     return create_engine(f"sqlite:///{db_path}", pool_size=20, max_overflow=0)
 
 
-# Initialize the database
 engine = setup_database()
 
 
@@ -40,7 +36,6 @@ def init_db() -> None:
 
         try:
             log.info("Drop virtual tables for embeddings")
-            # Use raw execute for virtual table operations
             connection.execute("DROP TABLE IF EXISTS vector_source")
 
             log.info("Create virtual vector tables for embeddings")

@@ -6,9 +6,63 @@
             <a class="nav-link px-6 text-[21px] text-black hover:text-orange-500" href="/">Home</a>
             <a class="nav-link px-6 text-[21px] text-black hover:text-orange-500" href="/blog">Blog</a>
         </div>
-        <div class="mx-2 px-3">
-            <a href="/v1/signin" class="btn btn-outline-dark text-[19px]">Sign in</a>
-            <a href="/v1/signup" class="btn btn-outline-dark text-[19px]">Sign up</a>
+        
+        <div class="mx-2 px-3" id="authButtons">
+            <!-- Auth buttons will be populated by JS -->
         </div>
     </div>
 </nav>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    const authButtons = document.getElementById('authButtons');
+    const isLoggedIn = document.cookie.split(';').some(item => item.trim().startsWith('access_token='));
+    if (isLoggedIn) {
+        fetch('/v1/profile')
+            .then(response => {
+                if (response.ok) {
+                    return response.json();
+                }
+                throw new Error('Not authenticated');
+            })
+            .then(user => {
+                // Create dropdown with username and logout option
+                authButtons.innerHTML = `
+                    <div class="dropdown">
+                        <button class="btn btn-outline-dark dropdown-toggle text-[19px]" type="button" id="userDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                            ${user.username || 'User'}
+                        </button>
+                        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
+                            <li><a class="dropdown-item" href="#">Profile</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><button class="dropdown-item" id="logoutButton">Logout</button></li>
+                        </ul>
+                    </div>
+                `;
+                
+                // Add logout functionality
+                document.getElementById('logoutButton').addEventListener('click', () => {
+                    fetch('/v1/logout', {
+                        method: 'POST',
+                    }).then(() => {
+                        window.location.reload();
+                    });
+                });
+            })
+            .catch(() => {
+                // If there's an error fetching user profile, show login/signup buttons
+                showLoginButtons();
+            });
+    } else {
+        showLoginButtons();
+    }
+    
+    function showLoginButtons() {
+        authButtons.innerHTML = `
+            <a href="/v1/signin" class="btn btn-outline-dark text-[19px]">Sign in</a>
+            <a href="/v1/signup" class="btn btn-outline-dark text-[19px] ms-2">Sign up</a>
+        `;
+    }
+
+});
+</script>
