@@ -5,7 +5,7 @@ from contextlib import asynccontextmanager
 from typing import Dict
 
 from fastapi import Depends, FastAPI, Query
-from fastapi.responses import HTMLResponse
+from fastapi.responses import HTMLResponse, JSONResponse
 from fastapi.staticfiles import StaticFiles
 from sqlalchemy import ColumnClause, Float, select, text
 from starlette.requests import Request
@@ -31,14 +31,15 @@ TOP_N = 50
 
 
 @asynccontextmanager
-async def lifespan(app: FastAPI) -> None:  # type: ignore
-    log.info("Fast API lifespan")
+async def lifespan(app: FastAPI):
+    log.info("Fast API lifespan starting up")
     engine = init_db()
     try:
         yield
     finally:
         log.info("Disposing database engine")
-        engine.dispose()
+        if engine is not None:
+            engine.dispose()
 
 
 app = FastAPI(
@@ -47,9 +48,15 @@ app = FastAPI(
     lifespan=lifespan,
 )
 app.include_router(api_router)
-app.mount("/static", StaticFiles(directory="app/static"), name="static")
 
-app.add_middleware(RequestLoggerMiddleware)
+app.mount("/static", StaticFiles(directory="app/static", html=True), name="static")
+app.add_middleware(
+    RequestLoggerMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 
 @app.get("/search")

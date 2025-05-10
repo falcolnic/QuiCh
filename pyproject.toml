@@ -25,6 +25,7 @@ youtube-transcript-api = "0.6.2"
 pytubefix = "^8.12.1"
 passlib = {extras = ["bcrypt"], version = "^1.7.4"}
 psycopg2-binary = "2.9.9"
+httpx = "^0.28.1"
 
 [tool.poetry.group.dev.dependencies]
 black = "24.4.2"

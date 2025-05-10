@@ -108,3 +108,5 @@ cython_debug/
 .sesskey
 .data/
 .docs/
+.vscode/
+/.vscode/

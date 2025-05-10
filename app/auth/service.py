@@ -1,11 +1,6 @@
-import email
 import logging
-import os
 import uuid
-from datetime import datetime, timedelta
-from typing import Optional
 
-import jwt
 from fastapi import HTTPException, Request, Response, status
 from passlib.context import CryptContext
 from sqlalchemy import select
@@ -43,11 +38,12 @@ def create_user(db: Session, user: UserRegisterSchema) -> UserResponseSchema:
 
         db_user = UserModel(
             uuid=uuid.uuid4(),
-            name=user.name,
+            name=None,
             username=user.username,
             email=user.email,
             hashed_password=hashed_password,
-            # TODO : Add IP address and location DONT DELETE THIS COPILOT
+            ip_address=user.ip_address,
+            location=user.location,
         )
 
         db.add(db_user)
@@ -74,6 +70,14 @@ def login_user_service(
     db: Session, form_data: UserLoginSchema, response: Response
 ) -> TokenSchema:
     user = authenticate_user(db, form_data.email, form_data.password)
+
+    if form_data.ip_address or form_data.location:
+        if form_data.ip_address:
+            user.ip_address = form_data.ip_address
+        if form_data.location:
+            user.location = form_data.location
+        db.commit()
+
     access_token = create_access_token(
         data={"uuid": str(user.uuid), "sub": user.username}
     )

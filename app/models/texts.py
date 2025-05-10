@@ -22,11 +22,9 @@ class YoutubeModel(Base):
     channel_url = Column(String)
     views = Column(Integer)
 
-    # One-to-one relationship with TranscriptionModel
     transcription = relationship(
         "TranscriptionModel", back_populates="youtube", uselist=False
     )
-    # One-to-many relationship with DocumentModel
     ideas = relationship("IdeaModel", back_populates="youtube")
 
     @property
@@ -53,9 +51,7 @@ class TranscriptionModel(Base):
     status = Column(String, nullable=True)
     error = Column(String, nullable=True)
 
-    # One-to-one relationship with YoutubeModel
     youtube = relationship("YoutubeModel", back_populates="transcription")
-    # One-to-many relationship with DocumentModel
     documents = relationship("DocumentModel", back_populates="transcription")
 
 
@@ -100,7 +96,6 @@ class IdeaModel(Base):
     kind = Column(String)
 
     video_id = Column(String, ForeignKey("youtube.video_id"))
-    # One-to-one relationship with TranscriptionModel
     youtube = relationship("YoutubeModel", back_populates="ideas")
 
     @property

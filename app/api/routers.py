@@ -1,3 +1,5 @@
+import logging
+
 from fastapi import APIRouter, Depends
 from sqlalchemy import select, text
 
@@ -6,6 +8,7 @@ from app.jinja_setup import jinja
 from app.models.texts import YoutubeModel
 
 router = APIRouter()
+log = logging.getLogger(__name__)
 
 
 @router.get("/")

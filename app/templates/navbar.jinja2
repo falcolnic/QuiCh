@@ -1,14 +1,45 @@
-<!-- Navigation Bar -->
-
 <nav class="navbar navbar-expand-lg w-full shadow-orange transition-all duration-300 ease-out">
     <div class="container-fluid">
         <div class="navbar-nav flex-row pl-6">
             <a class="nav-link px-6 text-[21px] text-black hover:text-orange-500" href="/">Home</a>
             <a class="nav-link px-6 text-[21px] text-black hover:text-orange-500" href="/blog">Blog</a>
         </div>
-        <div class="mx-2 px-3">
-            <a href="/v1/signin" class="btn btn-outline-dark text-[19px]">Sign in</a>
-            <a href="/v1/signup" class="btn btn-outline-dark text-[19px]">Sign up</a>
+        <div class="mx-2 px-3" id="authButtons">
+            <a href="/v1/signin" class="btn btn-outline-dark text-[19px]" id="signin-btn">Sign in</a>
+            <a href="/v1/signup" class="btn btn-outline-dark text-[19px]" id="signup-btn">Sign up</a>
+            <a href="#" class="py-6 text-[19px] font-bold hover:text-orange-500 transition-colors cursor-pointer" id="username-display" style="display: none;"></a>
         </div>
     </div>
 </nav>
+<script>
+    document.addEventListener("DOMContentLoaded", async () => {
+        const authSection = document.getElementById("authButtons");
+        const signinBtn = document.getElementById("signin-btn");
+        const signupBtn = document.getElementById("signup-btn");
+        const usernameDisplay = document.getElementById("username-display");
+    
+        try {
+            const response = await fetch("/v1/profile", {
+                method: "GET",
+                credentials: "include",
+            });
+    
+            if (response.ok) {
+                const user = await response.json();
+                signinBtn.style.display = "none";
+                signupBtn.style.display = "none";
+                usernameDisplay.textContent = user.username;
+                usernameDisplay.style.display = "inline";
+            } else {
+                signinBtn.style.display = "inline";
+                signupBtn.style.display = "inline";
+                usernameDisplay.style.display = "none";
+            }
+        } catch (error) {
+            console.error("Error fetching profile:", error);
+            signinBtn.style.display = "inline";
+            signupBtn.style.display = "inline";
+            usernameDisplay.style.display = "none";
+        }
+    });
+</script>
