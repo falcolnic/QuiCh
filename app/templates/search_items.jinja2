@@ -121,13 +121,12 @@
                     </div>
                     <div class="dropdown">
                         <button class="btn btn-outline-dark dropdown-toggle" data-bs-toggle="dropdown">
-                            Sort by Relevance
+                            Sort by {{ sort_display_name }}
                         </button>
                         <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" href="#">Highest Similarity</a></li>
-                            <li><a class="dropdown-item" href="#">Most Recent</a></li>
-                            <li><a class="dropdown-item" href="#">Most Viewed</a></li>
-                        </ul>
+                            <li><a class="dropdown-item" href="/search?term={{ search_term }}&page={{ current_page }}&sort=similarity">Highest Similarity</a></li>
+                            <li><a class="dropdown-item" href="/search?term={{ search_term }}&page={{ current_page }}&sort=recent">Most Recent</a></li>
+                            <li><a class="dropdown-item" href="/search?term={{ search_term }}&page={{ current_page }}&sort=views">Most Viewed</a></li>                        </ul>
                     </div>
                 </div>
 
@@ -181,7 +180,7 @@
                     <ul class="pagination justify-content-center">
                         {% if current_page > 1 %}
                             <li class="page-item">
-                                <a class="page-link" href="/search?term={{ search_term }}&page={{ current_page - 1 }}">Previous</a>
+                                <a class="page-link" href="/search?term={{ search_term }}&page={{ current_page - 1 }}&sort={{ sort }}">Previous</a>
                             </li>
                         {% else %}
                             <li class="page-item disabled">
@@ -196,15 +195,13 @@
                                 </li>
                             {% else %}
                                 <li class="page-item">
-                                    <a class="page-link" href="/search?term={{ search_term }}&page={{ page_num }}">{{ page_num }}</a>
-                                </li>
+                                    <a class="page-link" href="/search?term={{ search_term }}&page={{ page_num }}&sort={{ sort }}">{{ page_num }}</a>                                </li>
                             {% endif %}
                         {% endfor %}
 
                         {% if current_page < total_pages %}
                             <li class="page-item">
-                                <a class="page-link" href="/search?term={{ search_term }}&page={{ current_page + 1 }}">Next</a>
-                            </li>
+                                <a class="page-link" href="/search?term={{ search_term }}&page={{ current_page + 1 }}&sort={{ sort }}">Next</a>                            </li>
                         {% else %}
                             <li class="page-item disabled">
                                 <a class="page-link" href="#">Next</a>

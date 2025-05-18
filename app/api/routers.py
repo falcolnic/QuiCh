@@ -48,3 +48,15 @@ async def version(db=Depends(get_db)) -> dict:
         "vss version": db.scalars(text("select vec_version();")),
         "sqlite version": db.scalars(text("select sqlite_version();")),
     }
+
+
+@router.get("/privacy")
+@jinja.page("privacy.jinja2")
+async def privacy() -> dict:
+    return {"message": "Privacy policy content goes here."}
+
+
+@router.get("/tos")
+@jinja.page("TOS.jinja2")
+async def tos() -> dict:
+    return {"message": "Terms of service content goes here."}

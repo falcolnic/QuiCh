@@ -11,6 +11,7 @@ from sqlalchemy import ColumnClause, Float, select, text
 from starlette.requests import Request
 
 from app.api.deps import get_db, voyageai_client
+from app.api.sorting import SortOption, get_search_query, get_sort_display_name
 from app.api.v1 import api_router
 from app.database import init_db
 from app.jinja_setup import jinja, templates
@@ -65,24 +66,14 @@ async def search(
     term: str,
     page: int = Query(1, ge=1),
     page_size: int = Query(20, ge=1, le=100),
+    sort: SortOption = Query(SortOption.RELEVANCE),
     db=Depends(get_db),
     client=Depends(voyageai_client),
 ) -> Dict:
     question_embedding = embed(client, term)
     offset = (page - 1) * page_size
 
-    query = """
-        WITH matches AS (
-            SELECT rowid, vec_distance_cosine(embedding, :embedding) as distance
-            FROM vector_source
-            ORDER BY distance
-        )
-        SELECT ideas.*, matches.distance AS distance
-        FROM matches
-        LEFT JOIN ideas ON ideas.rowid = matches.rowid
-        ORDER BY distance
-        LIMIT :page_size OFFSET :offset
-    """
+    query = get_search_query(sort)
 
     res = db.execute(
         select(IdeaModel, ColumnClause("distance", Float)).from_statement(text(query)),
@@ -114,6 +105,8 @@ async def search(
         "search_videos_count": videos_count,  # mentions count
         "current_page": page,
         "total_pages": total_pages,
+        "sort": sort,
+        "sort_display_name": get_sort_display_name(sort),
         "docs": [
             (
                 round(rank, 4),

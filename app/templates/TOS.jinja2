@@ -1,0 +1,191 @@
+{% block header %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QuiCh - Terms of Service</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/js/all.min.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/static/styles/cursor.css" rel="stylesheet">
+    <style>
+        ::-webkit-scrollbar {
+            width: 7px;
+        }
+        ::-webkit-scrollbar-track {
+            background-color: #ffffff;
+        }
+        ::-webkit-scrollbar-thumb {
+            border-radius: 0px;
+            background-color: #000000;
+        }
+        body {
+            font-family: 'Fredoka', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+        }
+        ::selection {
+            background-color: #2a2a2a;
+            color: #ffffff;
+        }
+        .navbar .nav-link:hover {
+            color: #ff7800 !important;
+        }
+        .shadow-orange {
+            box-shadow: 0 13px 35px -12px rgba(35,35,35,0.15);
+        }
+        @keyframes fadeInLeft {
+            0% {
+                opacity: 0;
+                transform: translateX(-20px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }   
+        @-webkit-keyframes fadeInLeft {
+            0% {
+                opacity: 0;
+                transform: translateX(-20px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        } 
+        .tos-content h2 {
+            color: #000;
+            font-weight: 600;
+            margin-top: 2rem;
+            margin-bottom: 1rem;
+            font-size: 1.5rem;
+        }
+        .tos-content p {
+            margin-bottom: 1rem;
+            line-height: 1.6;
+        }
+        .tos-content ul {
+            margin-bottom: 1.5rem;
+            padding-left: 1.5rem;
+        }
+        .tos-content li {
+            margin-bottom: 0.5rem;
+        }
+    </style>
+{% endblock header %}
+
+{% block content %}
+<header class="flex w-full bg-white">
+    {% include 'navbar.jinja2' %}
+</header>
+
+<div class="bg-white flex flex-col justify-center min-h-screen mx-auto max-w-5xl px-4 py-12">
+    <div class="wrapper fadeInLeft" style="animation: fadeInLeft 1s ease-out;">
+        <div class="mb-6 flex items-center">
+            <div class="w-6 h-px bg-orange-500"></div>
+            <div class="pl-3 text-md text-orange-500 italic">
+                <p>Legal</p>
+            </div>
+        </div>
+        <h1 class="text-5xl font-bold text-black mb-8 md:text-4xl sm:text-3xl">Terms of Service</h1>
+    </div>
+
+    <div class="tos-content text-black">
+        <p class="text-gray-600 mb-8">Last Updated: January 1, 2025</p>
+
+        <p>
+            Welcome to QuiCh. Please read these Terms of Service ("Terms") carefully before using our website and services. By accessing or using QuiCh, you agree to be bound by these Terms and our Privacy Policy.
+        </p>
+
+        <h2>1. Acceptance of Terms</h2>
+        <p>By accessing or using our services, you acknowledge that you have read, understood, and agree to be bound by these Terms. If you do not agree with any part of these Terms, you must not use our services.</p>
+
+        <h2>2. Description of Service</h2>
+        <p>QuiCh provides a semantic search platform that allows users to search for ideas, insights, and key information across video transcripts. Our service includes:</p>
+        <ul>
+            <li>Semantic search functionality across video content</li>
+            <li>AI-generated summaries and insights extraction</li>
+            <li>User account management</li>
+            <li>Personalized search experience</li>
+        </ul>
+        <p>We reserve the right to modify, suspend, or discontinue any aspect of our services at any time without notice.</p>
+
+        <h2>3. User Accounts</h2>
+        <p>To access certain features of our service, you may need to create an account. When creating an account, you agree to:</p>
+        <ul>
+            <li>Provide accurate, current, and complete information</li>
+            <li>Maintain and promptly update your account information</li>
+            <li>Keep your password secure and confidential</li>
+            <li>Be responsible for all activities that occur under your account</li>
+            <li>Notify us immediately of any unauthorized use of your account</li>
+        </ul>
+        <p>We reserve the right to suspend or terminate accounts that violate these Terms or for any other reason at our sole discretion.</p>
+
+        <h2>4. User Conduct</h2>
+        <p>When using our services, you agree not to:</p>
+        <ul>
+            <li>Violate any applicable laws or regulations</li>
+            <li>Infringe on the intellectual property rights of others</li>
+            <li>Attempt to gain unauthorized access to any part of our services</li>
+            <li>Use automated methods to access or use our services without our permission</li>
+            <li>Interfere with or disrupt our services or servers</li>
+            <li>Create multiple accounts for abusive purposes</li>
+            <li>Engage in any activity that could harm our services or other users</li>
+        </ul>
+
+        <h2>5. Intellectual Property</h2>
+        <p>All content, features, and functionality of our services, including but not limited to text, graphics, logos, icons, images, audio clips, and software, are owned by QuiCh or our licensors and are protected by copyright, trademark, and other intellectual property laws.</p>
+        <p>You may not copy, modify, distribute, sell, or lease any part of our services without our explicit permission. The use of our content or materials in any other website or networked computer environment is prohibited without our written consent.</p>
+
+        <h2>6. Third-Party Content</h2>
+        <p>Our service may display content from third parties, including YouTube videos and their transcripts. We do not control, endorse, or take responsibility for any third-party content. Access to such content is governed by the respective third parties' terms and policies.</p>
+
+        <h2>7. Data Usage and Privacy</h2>
+        <p>Our collection and use of personal information is governed by our <a href="/privacy" class="text-orange-500 hover:underline">Privacy Policy</a>. By using our services, you consent to our data practices described in the Privacy Policy.</p>
+        <p>We collect and store information about your location based on your IP address to enhance our services. If you do not wish to provide this information, you may still use our basic services, but some features may be limited.</p>
+
+        <h2>8. Service Limitations</h2>
+        <p>Non-registered users may have limits on the number or complexity of search requests they can make. Creating an account allows for increased usage limits and additional features.</p>
+
+        <h2>9. Changes to Terms</h2>
+        <p>We reserve the right to modify these Terms at any time. We will provide notice of significant changes by posting the updated Terms on our website. Your continued use of our services after such changes constitutes your acceptance of the modified Terms.</p>
+
+        <h2>10. Termination</h2>
+        <p>We may terminate or suspend your access to our services immediately, without prior notice or liability, for any reason, including if you breach these Terms.</p>
+        <p>Upon termination, your right to use our services will immediately cease. All provisions of these Terms that by their nature should survive termination shall survive, including ownership provisions, warranty disclaimers, indemnity, and limitations of liability.</p>
+
+        <h2>11. Disclaimer of Warranties</h2>
+        <p>Our services are provided "as is" and "as available" without warranties of any kind, either express or implied. We do not guarantee that our services will be uninterrupted, secure, or error-free.</p>
+
+        <h2>12. Limitation of Liability</h2>
+        <p>To the maximum extent permitted by law, QuiCh shall not be liable for any indirect, incidental, special, consequential, or punitive damages, or any loss of profits or revenues, whether incurred directly or indirectly, or any loss of data, use, goodwill, or other intangible losses resulting from your use of our services.</p>
+
+        <h2>13. Governing Law</h2>
+        <p>These Terms shall be governed by and construed in accordance with the laws of the jurisdiction in which QuiCh operates, without regard to its conflict of law provisions.</p>
+
+        <h2>14. Contact Information</h2>
+        <p>If you have any questions about these Terms, please contact us at legal@quich.com.</p>
+    </div>
+</div>
+
+<footer class="py-4 mt-10">
+    <div class="container mx-auto flex justify-between items-center px-16">
+        <!-- Left side -->
+        <div class="text-lg">
+            <a href="/privacy" class="hover:text-orange-500 mr-4">Privacy Policy</a>
+            <a href="/tos" class="hover:text-orange-500">TOS</a>
+        </div>
+        <!-- Center -->
+        <div class="cursor text-md text-gray-600">
+            Copyright &copy; 2025 QuiCh.
+        </div>
+        <!-- Right side -->
+        <div class="flex space-x-4">
+            <a href="https://facebook.com" target="_blank" class="hover:text-orange-500 transition-all duration-[0.3s] ease-[ease-in-out] ml-[80px]">
+                <i class="fab fa-facebook-f fa-lg"></i>
+            </a>
+            <a href="https://linkedin.com" target="_blank" class="hover:text-orange-500 transition-all duration-[0.3s] ease-[ease-in-out] ml-[40px]">
+                <i class="fab fa-linkedin fa-lg"></i>
+            </a>
+        </div>
+    </div>
+</footer>
+{% endblock content %}
