@@ -87,7 +87,6 @@ async def login(
     user_data: UserLoginSchema, response: Response, db: Session = Depends(get_db)
 ):
     try:
-        # Check if password contains spaces
         if " " in user_data.password:
             raise HTTPException(
                 status_code=400, detail="Password cannot contain spaces"

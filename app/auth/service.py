@@ -2,7 +2,6 @@ import logging
 import uuid
 
 from fastapi import HTTPException, Request, Response, status
-from passlib.context import CryptContext
 from sqlalchemy import select
 from sqlalchemy.orm import Session
 
@@ -107,3 +106,17 @@ def get_profile_service(db: Session, token: str) -> UserResponseSchema:
         raise UserNotFoundException
 
     return UserResponseSchema.model_validate(user)
+
+
+def get_user_from_request(request: Request) -> dict:
+    access_token = request.cookies.get("access_token")
+    if not access_token:
+        return {"authenticated": False, "uuid": None}
+
+    try:
+        from app.auth.tokens import verify_access_token
+
+        user_data = verify_access_token(access_token)
+        return {"authenticated": True, "uuid": user_data.get("uuid")}
+    except:
+        return {"authenticated": False, "uuid": None}

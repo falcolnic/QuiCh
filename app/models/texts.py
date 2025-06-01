@@ -74,10 +74,7 @@ class DocumentModel(Base):
     source_embedding = Column(BLOB)
     total_embedding = Column(BLOB)
 
-    # Foreign key for TranscriptionModel
     video_id = Column(String, ForeignKey("transcriptions.video_id"))
-
-    # One-to-one relationship with TranscriptionModel
     transcription = relationship("TranscriptionModel", back_populates="documents")
 
 

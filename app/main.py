@@ -4,15 +4,24 @@ import uuid
 from contextlib import asynccontextmanager
 from typing import Dict
 
-from fastapi import Depends, FastAPI, Query
-from fastapi.responses import HTMLResponse, JSONResponse
+from fastapi import Depends, FastAPI, HTTPException, Query
+from fastapi.responses import HTMLResponse
 from fastapi.staticfiles import StaticFiles
+from slowapi import Limiter, _rate_limit_exceeded_handler
+from slowapi.errors import RateLimitExceeded
+from slowapi.util import get_remote_address
 from sqlalchemy import ColumnClause, Float, select, text
 from starlette.requests import Request
 
 from app.api.deps import get_db, voyageai_client
 from app.api.sorting import SortOption, get_search_query, get_sort_display_name
 from app.api.v1 import api_router
+from app.auth.rate_limit import (
+    RateLimitExceededException,
+    check_rate_limit,
+    get_remaining_requests,
+)
+from app.auth.service import get_user_from_request
 from app.database import init_db
 from app.jinja_setup import jinja, templates
 from app.middleware.request_logger import RequestLoggerMiddleware
@@ -29,6 +38,8 @@ consoleHandler.setFormatter(logFormatter)
 log.addHandler(consoleHandler)
 
 TOP_N = 50
+
+limiter = Limiter(key_func=get_remote_address)
 
 
 @asynccontextmanager
@@ -48,6 +59,8 @@ app = FastAPI(
     docs_url="/api/docs",
     lifespan=lifespan,
 )
+app.state.limiter = limiter
+
 app.include_router(api_router)
 
 app.mount("/static", StaticFiles(directory="app/static", html=True), name="static")
@@ -63,6 +76,7 @@ app.add_middleware(
 @app.get("/search")
 @jinja.page("search_items.jinja2")
 async def search(
+    request: Request,
     term: str,
     page: int = Query(1, ge=1),
     page_size: int = Query(20, ge=1, le=100),
@@ -70,6 +84,12 @@ async def search(
     db=Depends(get_db),
     client=Depends(voyageai_client),
 ) -> Dict:
+    user_info = get_user_from_request(request)
+    client_ip = request.client.host
+
+    check_rate_limit(client_ip, user_info["authenticated"])
+    rate_info = get_remaining_requests(client_ip, user_info["authenticated"])
+
     question_embedding = embed(client, term)
     offset = (page - 1) * page_size
 
@@ -87,7 +107,6 @@ async def search(
 
     videos_count = len(set(i.video_id for i, _ in res))
 
-    # TODO Use some limit for non-registered user, if it registered he can make more requests
     total_results = TOP_N
     total_pages = (total_results + page_size - 1) // page_size
 
@@ -121,3 +140,17 @@ async def search(
 def custom_404_handler(request: Request, exc: Exception) -> HTMLResponse:
     """This route serves the 404.jinja2 template."""
     return templates.TemplateResponse("404.jinja2", {"request": request})
+
+
+@app.exception_handler(RateLimitExceededException)
+async def rate_limit_handler(request: Request, exc: RateLimitExceededException):
+    return templates.TemplateResponse(
+        "rate_limit_exceeded.jinja2",
+        {
+            "request": request,
+            "error_message": exc.message,
+            "limit_info": "Unregistered users are limited to 5 searches per day.",
+            "retry_info": "Try again tomorrow or create an account for unlimited searches.",
+        },
+        status_code=429,
+    )
