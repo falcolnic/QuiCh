@@ -18,7 +18,7 @@ processes = [ "app" ]
 [[vm]]
 cpu_kind = "shared"
 cpus = 1
-memory = "512mb"
+memory = "2058mb"
 
 [mounts]
 source = "quich_data"

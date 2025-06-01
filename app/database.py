@@ -10,9 +10,6 @@ log = logging.getLogger(__name__)
 
 
 def setup_database():
-    """
-    Set up the SQLite database and create all tables based on models.
-    """
     db_path = Path("/data") / "franken.db"
     return create_engine(f"sqlite:///{db_path}", pool_size=20, max_overflow=0)
 
@@ -60,7 +57,6 @@ def init_db() -> None:
             log.error(f"Error during vector table setup: {e}")
 
 
-# Create a new session
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 
 

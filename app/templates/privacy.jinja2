@@ -1,0 +1,188 @@
+{% block header %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QuiCh - Privacy Policy</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/js/all.min.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/static/styles/cursor.css" rel="stylesheet">
+    <style>
+        ::-webkit-scrollbar {
+            width: 7px;
+        }
+        ::-webkit-scrollbar-track {
+            background-color: #ffffff;
+        }
+        ::-webkit-scrollbar-thumb {
+            border-radius: 0px;
+            background-color: #000000;
+        }
+        body {
+            font-family: 'Fredoka', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+        }
+        ::selection {
+            background-color: #2a2a2a;
+            color: #ffffff;
+        }
+        .navbar .nav-link:hover {
+            color: #ff7800 !important;
+        }
+        .shadow-orange {
+            box-shadow: 0 13px 35px -12px rgba(35,35,35,0.15);
+        }
+        @keyframes fadeInLeft {
+            0% {
+                opacity: 0;
+                transform: translateX(-20px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }   
+        @-webkit-keyframes fadeInLeft {
+            0% {
+                opacity: 0;
+                transform: translateX(-20px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        } 
+        .privacy-content h2 {
+            color: #000;
+            font-weight: 600;
+            margin-top: 2rem;
+            margin-bottom: 1rem;
+            font-size: 1.5rem;
+        }
+        .privacy-content p {
+            margin-bottom: 1rem;
+            line-height: 1.6;
+        }
+        .privacy-content ul {
+            margin-bottom: 1.5rem;
+            padding-left: 1.5rem;
+        }
+        .privacy-content li {
+            margin-bottom: 0.5rem;
+        }
+    </style>
+{% endblock header %}
+
+{% block content %}
+<header class="flex w-full bg-white">
+    {% include 'navbar.jinja2' %}
+</header>
+
+<div class="bg-white flex flex-col justify-center min-h-screen mx-auto max-w-5xl px-4 py-12">
+    <div class="wrapper fadeInLeft" style="animation: fadeInLeft 1s ease-out;">
+        <div class="mb-6 flex items-center">
+            <div class="w-6 h-px bg-orange-500"></div>
+            <div class="pl-3 text-md text-orange-500 italic">
+                <p>Legal</p>
+            </div>
+        </div>
+        <h1 class="text-5xl font-bold text-black mb-8 md:text-4xl sm:text-3xl">Privacy Policy</h1>
+    </div>
+
+    <div class="privacy-content text-black">
+        <p class="text-gray-600 mb-8">Last Updated: January 1, 2025</p>
+
+        <p>
+            Welcome to QuiCh. We respect your privacy and are committed to protecting your personal information. This Privacy Policy explains how we collect, use, and safeguard your information when you use our website and services.
+        </p>
+
+        <h2>1. Information We Collect</h2>
+        <p>We collect several types of information from and about users of our website, including:</p>
+        <ul>
+            <li><strong>Personal Information:</strong> When you register for an account, we collect your username, email address, and password.</li>
+            <li><strong>Usage Data:</strong> Information about how you interact with our website, including search queries, pages visited, and features used.</li>
+            <li><strong>Location Information:</strong> We collect information about your general location (such as city, region, and country) based on your IP address to enhance your experience.</li>
+            <li><strong>Device Information:</strong> We collect information about your device, including IP address, browser type, and operating system.</li>
+        </ul>
+
+        <h2>2. How We Use Your Information</h2>
+        <p>We use the information we collect to:</p>
+        <ul>
+            <li>Provide, maintain, and improve our services</li>
+            <li>Process and complete transactions</li>
+            <li>Personalize your experience on our website</li>
+            <li>Communicate with you about our services, updates, and promotions</li>
+            <li>Monitor and analyze usage patterns and trends</li>
+            <li>Protect against, identify, and prevent fraud and other illegal activity</li>
+        </ul>
+
+        <h2>3. How We Share Your Information</h2>
+        <p>We may share your personal information with:</p>
+        <ul>
+            <li><strong>Service Providers:</strong> Third-party vendors who help us operate our business and provide our services</li>
+            <li><strong>Analytics Partners:</strong> Companies that help us understand how users interact with our website</li>
+            <li><strong>Legal Requirements:</strong> When required by law or to protect our rights and the safety of our users</li>
+        </ul>
+        <p>We do not sell your personal information to third parties.</p>
+
+        <h2>4. Cookies and Tracking Technologies</h2>
+        <p>We use cookies and similar tracking technologies to track activity on our website and store certain information. Cookies are files with a small amount of data that may include an anonymous unique identifier. You can instruct your browser to refuse all cookies or to indicate when a cookie is being sent. However, if you do not accept cookies, you may not be able to use some portions of our service.</p>
+        <p>We use cookies for:</p>
+        <ul>
+            <li>Keeping you signed in</li>
+            <li>Understanding how you use our website</li>
+            <li>Remembering your preferences</li>
+            <li>Improving the overall user experience</li>
+        </ul>
+
+        <h2>5. Data Security</h2>
+        <p>We implement appropriate security measures to protect your personal information from unauthorized access, alteration, disclosure, or destruction. However, no method of transmission over the Internet or electronic storage is 100% secure, and we cannot guarantee absolute security.</p>
+
+        <h2>6. Your Rights</h2>
+        <p>Depending on your location, you may have certain rights regarding your personal information, including:</p>
+        <ul>
+            <li>The right to access your personal information</li>
+            <li>The right to correct inaccurate personal information</li>
+            <li>The right to request deletion of your personal information</li>
+            <li>The right to restrict or object to processing of your personal information</li>
+            <li>The right to data portability</li>
+        </ul>
+        <p>To exercise these rights, please contact us using the information provided in the "Contact Us" section.</p>
+
+        <h2>7. Children's Privacy</h2>
+        <p>Our services are not intended for individuals under the age of 13. We do not knowingly collect personal information from children under 13. If we discover that a child under 13 has provided us with personal information, we will promptly delete it from our systems.</p>
+
+        <h2>8. International Data Transfers</h2>
+        <p>Your information may be transferred to and processed in countries other than the one in which you reside. These countries may have data protection laws that differ from those in your country. By using our services, you consent to the transfer of your information to these countries.</p>
+
+        <h2>9. Changes to This Privacy Policy</h2>
+        <p>We may update this Privacy Policy from time to time. We will notify you of any changes by posting the new Privacy Policy on this page and updating the "Last Updated" date. You are advised to review this Privacy Policy periodically for any changes.</p>
+
+        <h2>10. Contact Us</h2>
+        <p>If you have any questions or concerns about this Privacy Policy or our data practices, please contact us at:</p>
+        <p>Email: mykh.yano@gmail.com</p>
+    </div>
+</div>
+
+<footer class="py-4 mt-10">
+    <div class="container mx-auto flex justify-between items-center px-16">
+        <!-- Left side -->
+        <div class="text-lg">
+            <a href="/privacy" class="hover:text-orange-500 mr-4">Privacy Policy</a>
+            <a href="/tos" class="hover:text-orange-500">TOS</a>
+        </div>
+        <!-- Center -->
+        <div class="cursor text-md text-gray-600">
+            Copyright &copy; 2025 QuiCh.
+        </div>
+        <!-- Right side -->
+        <div class="flex space-x-4">
+            <a href="https://facebook.com" target="_blank" class="hover:text-orange-500 transition-all duration-[0.3s] ease-[ease-in-out] ml-[80px]">
+                <i class="fab fa-facebook-f fa-lg"></i>
+            </a>
+            <a href="https://linkedin.com" target="_blank" class="hover:text-orange-500 transition-all duration-[0.3s] ease-[ease-in-out] ml-[40px]">
+                <i class="fab fa-linkedin fa-lg"></i>
+            </a>
+        </div>
+    </div>
+</footer>
+{% endblock content %}

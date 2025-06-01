@@ -12,8 +12,8 @@ class UUID_as_Integer(TypeDecorator):
         if value is None:
             return None
         if isinstance(value, uuid.UUID):
-            return value.bytes  # UUID to integer
-        return uuid.UUID(value).bytes  # Convert string UUID to integer
+            return value.bytes
+        return uuid.UUID(value).bytes
 
     def process_result_value(self, value, dialect):
         """Convert integer back to UUID after retrieving from the database."""
